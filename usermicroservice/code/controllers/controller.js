@@ -25,11 +25,12 @@ export async function getUserList(req, res) {
 export async function addUser(req, res) { 
     const username = req.query.username;
     const password = req.query.password;
-    const email = req.query.email;
+    // const email = req.query.email;
 
     // Check if name and password are provided
-    if (!username || !password || !email) {
-        return res.status(400).send("Username, password, and email are required");
+    if (!username || !password) {
+        return res.status(400).send("Username and password are required");
+        // return res.status(400).send("Username, password, and email are required");
     }
 
     // Check if user already exists
@@ -39,7 +40,7 @@ export async function addUser(req, res) {
 
     try {
         const hashedPassword = await hash(password, 10);
-        userList.push({ username, password: hashedPassword, email });
+        userList.push({ username, password: hashedPassword });
         res.status(201).send(userList);
     } catch (error) {
         console.error("Error hashing password:", error);
