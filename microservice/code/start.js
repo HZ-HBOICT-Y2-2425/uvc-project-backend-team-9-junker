@@ -6,7 +6,18 @@ import indexRouter from './routes/index.js';
 
 const app = express();
 
-// support json encoded and url-encoded bodies, mainly used for post and update
+// Add CORS headers manually
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5175'); // Allow requests from your frontend origin
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow specific headers
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204); // Handle preflight requests
+  }
+  next();
+});
+
+// support JSON encoded and URL-encoded bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
