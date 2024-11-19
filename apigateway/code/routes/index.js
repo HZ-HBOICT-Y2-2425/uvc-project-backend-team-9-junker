@@ -8,6 +8,13 @@ const microserviceProxy = createProxyMiddleware({
   changeOrigin: true
 });
 
+const usermicroserviceProxy = createProxyMiddleware({
+  target: 'http://usermicroservice:3012',
+  changeOrigin: true
+});
+
 router.use('/microservice', microserviceProxy);
+router.use('/usermicroservice', usermicroserviceProxy);
+
 
 export default router;

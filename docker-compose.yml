@@ -10,6 +10,19 @@ services:
       - "3011:3011"
     working_dir: /usr/src/app
     command: bash -c "npm install && npm run dev"
+
+  usermicroservice:
+    container_name: usermicroservice
+    build: ./usermicroservice
+    volumes:
+      - ./usermicroservice/code:/usr/src/app
+    networks:
+      - msexample
+    ports:
+      - "3012:3012"
+    working_dir: /usr/src/app
+    command: bash -c "npm install && npm run dev"
+
   gateway:
     container_name: apigateway
     build: ./apigateway
