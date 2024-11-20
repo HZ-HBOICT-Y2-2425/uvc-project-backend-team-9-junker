@@ -14,5 +14,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', indexRouter);
 
 app.listen(port, () => {
-  console.log(`Authenticate Server running on ${port}...`)
+  console.log(`User Server running on ${port}...`)
 })

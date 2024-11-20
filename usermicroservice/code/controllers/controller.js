@@ -1,24 +1,15 @@
 import { hash, compare } from 'bcrypt';
-// import sign from 'jsonwebtoken' does not work
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 
-let refreshTokens = [];
-// in process list of users, will be destroyed on restart (should use database to persist)
-const userList = [
-{
-    "username": "Geertje",
-    "password": "$2b$10$FkR/POy8yBdatZzbVk6YBOyVlqem0wESFKBVU2Vx/WCGa0ctzmMsy",
-    "email": "geertje@example.com",
-},
-{
-    "username": "Jos",
-    "password": "$2b$10$lWOejQYPBoWZnMhD6fccZu8SetefzgRkxal811Ftj.QbsAMysvp2e",
-    "email": "jos@example.com",
-}];
+import development from '../knexfile.js';
+import knex from 'knex';
+const db = knex(development);
 
-export async function getUserList(req, res) {
-    return res.status(200).send(userList);
+let refreshTokens = [];
+
+export async function getUser(req, res) {
+    return res.status(200).send("hi");
 }
 
 // REGISTER A USER 
@@ -30,18 +21,23 @@ export async function addUser(req, res) {
         return res.status(400).send("Username and password are required");
     }
 
-    // Check if user already exists
-    if (userList.find((ul) => ul.username == username)) {
-        return res.status(409).send("User already exists");
-    }
-
     try {
+        // Check if the username already exists in the database
+        const existingUser = await db('users').where({ username }).first();
+        if (existingUser) {
+            return res.status(409).json("User already exists");
+        }
+
         const hashedPassword = await hash(password, 10);
-        userList.push({ username, password: hashedPassword });
-        res.status(201).send(userList);
+
+        await db('users').insert({
+            username: username,
+            password: hashedPassword,
+        });
+        res.status(201).json("User registered successfully");
     } catch (error) {
-        console.error("Error hashing password:", error);
-        res.status(500).send("Internal server error");
+        console.error("Error registering user:", error);
+        res.status(500).json("Internal server error");
     }
 }
 
@@ -50,8 +46,8 @@ export async function loginUser(req, res) {
     const { username, password } = req.body;
 
     //check to see if the user exists in the list of registered users
-    const user = userList.find((ul) => ul.username == username);
-    if (user == null) {
+    const user = await db('users').where({ username }).first();
+    if (!user) {
         res.status(404).send("User does not exist!");
     }
     else {
@@ -67,7 +63,9 @@ export async function loginUser(req, res) {
 }
 
 export async function getOneUser(req, res) {
-    const user = userList.find((ul) => ul.username === req.params.username);
+    const username = req.params.username;
+    const user = await db('users').where({ username }).first();
+
     if (user) {
         res.status(200).json({ username: user.username }); // Send JSON response
     } else {
