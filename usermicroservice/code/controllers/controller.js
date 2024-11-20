@@ -23,18 +23,15 @@ export async function getUserList(req, res) {
 
 // REGISTER A USER 
 export async function addUser(req, res) { 
-    const username = req.query.username;
-    const password = req.query.password;
-    // const email = req.query.email;
+    const { username, password } = req.body;
 
     // Check if name and password are provided
     if (!username || !password) {
         return res.status(400).send("Username and password are required");
-        // return res.status(400).send("Username, password, and email are required");
     }
 
     // Check if user already exists
-    if (userList.find((ul) => ul.username == req.query.username)) {
+    if (userList.find((ul) => ul.username == username)) {
         return res.status(409).send("User already exists");
     }
 
@@ -50,14 +47,15 @@ export async function addUser(req, res) {
 
 //AUTHENTICATE LOGIN AND RETURN JWT TOKEN
 export async function loginUser(req, res) {
-    //check to see if the user exists in the list of registered users, 
-    //if user does not exist, send a 404 response (check 404)
-    const user = userList.find((ul) => ul.username == req.query.username);
+    const { username, password } = req.body;
+
+    //check to see if the user exists in the list of registered users
+    const user = userList.find((ul) => ul.username == username);
     if (user == null) {
         res.status(404).send("User does not exist!");
     }
     else {
-        if (await compare(req.query.password, user.password)) {
+        if (await compare(password, user.password)) {
             const accessToken = generateAccessToken({ user: req.body.name });
             const refreshToken = generateRefreshToken({ user: req.body.name });
             res.json({ accessToken: accessToken, refreshToken: refreshToken });
@@ -69,13 +67,14 @@ export async function loginUser(req, res) {
 }
 
 export async function getOneUser(req, res) {
-    const user = userList.find((ul) => ul.username == req.params.username);
+    const user = userList.find((ul) => ul.username === req.params.username);
     if (user) {
-        res.status(200).send(user);
+        res.status(200).json({ username: user.username }); // Send JSON response
     } else {
-        res.status(404).send("User does not exist!");
+        res.status(404).json({ error: "User does not exist!" });
     }
 }
+
 
 //REFRESH TOKEN API
 export async function refreshToken(req, res) {
