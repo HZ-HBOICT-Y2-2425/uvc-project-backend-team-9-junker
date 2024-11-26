@@ -14,11 +14,11 @@ export async function getUser(req, res) {
 
 // REGISTER A USER 
 export async function addUser(req, res) { 
-    const { username, password } = req.body;
+    const { fullName, username, password } = req.body;
 
     // Check if name and password are provided
-    if (!username || !password) {
-        return res.status(400).send("Username and password are required");
+    if (!fullName || !username || !password) {
+        return res.status(400).send("Full name, username and password are required");
     }
 
     try {
@@ -29,10 +29,13 @@ export async function addUser(req, res) {
         }
 
         const hashedPassword = await hash(password, 10);
+        const profilePicUrl = `https://ui-avatars.com/api/?name=${fullName.replace(/\s+/g, '+')}`;
 
         await db('users').insert({
+            fullname: fullName,
             username: username,
             password: hashedPassword,
+            profile_pic: profilePicUrl,
         });
         res.status(201).json("User registered successfully");
     } catch (error) {
@@ -40,6 +43,38 @@ export async function addUser(req, res) {
         res.status(500).json("Internal server error");
     }
 }
+
+// Allow user to edit info
+export async function editUser(req, res) {
+    const { username } = req.params;
+    const { fullName, password, profile_pic } = req.body;
+    
+    // Ensure the username in the URL matches the authenticated user
+    if (req.user.username !== username) {
+        return res.status(403).json({ error: "You can only edit your own profile." });
+    }
+
+    try {
+        // Check if the username already exists in the database
+        const existingUser = await db('users').where({ username }).first();
+        if (!existingUser) {
+            return res.status(404).json("User doesn't exist");
+        }
+
+        const hashedPassword = await hash(password, 10);
+
+        await db('users').where({ username }).update({
+            fullname: fullName,
+            password: hashedPassword,
+            profile_pic: profile_pic,
+        });
+
+        res.status(201).json("User edited successfully");
+    } catch (error) {
+        console.error("Error registering user:", error);
+        res.status(500).json("Internal server error");
+    }
+};
 
 //AUTHENTICATE LOGIN AND RETURN JWT TOKEN
 export async function loginUser(req, res) {
@@ -62,12 +97,28 @@ export async function loginUser(req, res) {
     }
 }
 
-export async function getOneUser(req, res) {
-    const username = req.params.username;
+export async function getPublicUser(req, res) {
+    const { username } = req.params;
     const user = await db('users').where({ username }).first();
 
     if (user) {
-        res.status(200).json({ username: user.username }); // Send JSON response
+        const publicProfile = {
+            username: user.username,
+            fullname: user.fullname,
+            profile_pic: user.profile_pic,
+        };
+        res.status(200).json({ publicProfile }); // Send JSON response
+    } else {
+        res.status(404).json({ error: "User does not exist!" });
+    }
+}
+
+export async function getPrivateUser(req, res) {
+    const { username } = req.params;
+    const user = await db('users').where({ username }).first();
+
+    if (user) {
+        res.status(200).json({ user }); // Send JSON response
     } else {
         res.status(404).json({ error: "User does not exist!" });
     }
@@ -99,9 +150,33 @@ export async function logoutUser(req, res) {
     res.status(204).send("Logged out!");             
 }
 
+// delete user
+export async function deleteUser(req, res) {
+    const { username } = req.body;
+
+    // Check if name and password are provided
+    if (!username) {
+        return res.status(400).send("Username is required");
+    }
+
+    try {
+        // Check if the username already exists in the database
+        const existingUser = await db('users').where({ username }).first();
+        if (!existingUser) {
+            return res.status(404).json("User does not exist");
+        }
+
+        await db('users').where({ username }).del();
+        res.status(201).json("User deleted successfully");
+    } catch {
+        console.error("Error deleting user:", error);
+        res.status(500).json("Internal server error");
+    }
+}
+
 // accessTokens
 function generateAccessToken(user) { 
-    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
+    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
 }
 
 // refreshTokens

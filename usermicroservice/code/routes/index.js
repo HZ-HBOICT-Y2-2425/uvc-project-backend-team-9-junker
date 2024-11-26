@@ -1,5 +1,5 @@
 import express from 'express';
-import { addUser, loginUser, refreshToken, logoutUser, getUser, getOneUser } from '../controllers/controller.js';
+import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, getPrivateUser, getPublicUser } from '../controllers/controller.js';
 import { validateToken } from '../middleware/middleware.js';
 
 const router = express.Router();
@@ -8,9 +8,15 @@ const router = express.Router();
 router.get("/", getUser);
 router.post("/register", addUser);
 router.post("/login", loginUser);
-router.get("/user/:username", validateToken, getOneUser);
+
+router.get("/user/public/:username", getPublicUser);
+router.get("/user/private/:username", validateToken, getPrivateUser);
+
+router.put("/user/:username", validateToken, editUser);
 router.post("/refreshToken", validateToken, refreshToken);
+
 router.delete("/logout", logoutUser);
+router.delete("/user/:username", validateToken, deleteUser);
 
 export default router;
 
@@ -31,7 +37,7 @@ async function getUsers() {
         db.destroy();
     }
 }
-// getUsers();
+getUsers();
 
 async function deleteUser(id) {
     try {
@@ -45,3 +51,5 @@ async function deleteUser(id) {
         db.destroy();
     }
 }
+
+// deleteUser(1);
