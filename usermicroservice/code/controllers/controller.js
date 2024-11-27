@@ -46,9 +46,10 @@ export async function addUser(req, res) {
 
 // Allow user to edit info
 export async function editUser(req, res) {
-    const { username } = req.params;
-    const { fullName, password, profile_pic } = req.body;
-    
+    const { username, currentPassword, newPassword, profile_pic } = req.body;
+    console.log(req.user.username);
+    console.log(username);
+
     // Ensure the username in the URL matches the authenticated user
     if (req.user.username !== username) {
         return res.status(403).json({ error: "You can only edit your own profile." });
@@ -61,10 +62,15 @@ export async function editUser(req, res) {
             return res.status(404).json("User doesn't exist");
         }
 
-        const hashedPassword = await hash(password, 10);
+        // Compare the current password with the one in the database
+        const isPasswordCorrect = await compare(currentPassword, existingUser.password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json("Current password is incorrect");
+        }
+
+        const hashedPassword = await hash(newPassword, 10);
 
         await db('users').where({ username }).update({
-            fullname: fullName,
             password: hashedPassword,
             profile_pic: profile_pic,
         });
@@ -87,8 +93,8 @@ export async function loginUser(req, res) {
     }
     else {
         if (await compare(password, user.password)) {
-            const accessToken = generateAccessToken({ user: req.body.name });
-            const refreshToken = generateRefreshToken({ user: req.body.name });
+            const accessToken = generateAccessToken({ username: user.username });
+            const refreshToken = generateAccessToken({ username: user.username });
             res.json({ accessToken: accessToken, refreshToken: refreshToken });
         }
         else {
