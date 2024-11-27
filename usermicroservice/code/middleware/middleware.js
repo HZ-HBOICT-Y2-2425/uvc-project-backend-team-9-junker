@@ -22,10 +22,11 @@ export async function validateToken(req, res, next) {
             return res.status(403).send("Token invalid");
         }
         console.log("Token is valid");
-        console.log(decodedUser);
-
+        
         // Attach decoded user data to the request object
-        req.userObject = decodedUser;
+        req.user = decodedUser;
+        console.log(req.user);
+
         next(); // Proceed to the next middleware or route handler
     });
 }
