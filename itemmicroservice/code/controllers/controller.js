@@ -1,7 +1,6 @@
 import development from '../knexfile.js';
 import knex from 'knex';
 import ItemModel from '../models/itemModel.js';
-import ItemModel from 'itemmicroservice\code\models\item.model.js'
 const db = knex(development);
 
 export async function showAllItems(req, res) {
