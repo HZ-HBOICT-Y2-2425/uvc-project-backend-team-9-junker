@@ -1,5 +1,6 @@
 import development from '../knexfile.js';
 import knex from 'knex';
+import ItemModel from '../models/itemModel.js';
 const db = knex(development);
 
 export async function createItem(req, res) {
