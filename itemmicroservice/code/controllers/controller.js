@@ -2,6 +2,26 @@ import development from '../knexfile.js';
 import knex from 'knex';
 const db = knex(development);
 
+export async function showAllItems(req, res) {
+    try {
+        // Fetch all items from the database (no user-specific filtering)
+        const allItems = await item.model.find();
+
+        // If no items are found, send a 404 response
+        if (!allItems || allItems.length === 0) {
+            return res.status(404).json({ message: "No items found" });
+        }
+
+        // Send all items in the response
+        res.status(200).json(allItems);
+    } catch (error) {
+        // Handle any errors and send a 500 response
+        console.error("Error fetching all items:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
 export async function createItem(req, res) {
     try {
         const { userid } = req.params; // Assuming `userid` is passed in the route
