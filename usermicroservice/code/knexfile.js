@@ -1,7 +1,7 @@
 export const development = {
   client: 'sqlite3',
   connection: {
-    filename: './userdb.db',
+    filename: './users.db',
   },
   useNullAsDefault: true, // Required for SQLite
   migrations: {

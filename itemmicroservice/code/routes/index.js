@@ -1,5 +1,5 @@
 import express from 'express';
-import { createItem, storeItem, updateItem, deleteItem } from '../controllers/itemsController.js'; // Adjust the path as needed
+import { createItem, storeItem, updateItem, deleteItem } from '../controllers/controller.js';
 
 const router = express.Router();
 
@@ -17,3 +17,21 @@ router.delete('/users/:userid/items/:id', deleteItem);
 
 export default router;
 
+// Database test and view
+import development from '../knexfile.js';
+import knex from 'knex';
+const db = knex(development);
+
+async function getItems() {
+    try {
+      // Query all items
+        const items = await db('items').select('*');
+        console.log(items);
+    } catch (error) {
+        console.error('Error fetching items:', error);
+    } finally {
+        // Destroy the Knex connection after the query
+        db.destroy();
+    }
+}
+getItems();

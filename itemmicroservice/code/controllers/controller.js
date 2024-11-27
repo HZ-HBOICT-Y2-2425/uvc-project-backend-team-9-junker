@@ -1,5 +1,6 @@
-
-import knex from '../db/knex'; // Adjust path to your Knex configuration
+import development from '../knexfile.js';
+import knex from 'knex';
+const db = knex(development);
 
 export async function createItem(req, res) {
     try {
@@ -22,7 +23,7 @@ export async function storeItem(req, res) {
         const { name, description, action, available } = req.body; // Request body contains all attributes
 
         // Insert the item into the database
-        const [id] = await knex('items').insert({
+        const [id] = await db('items').insert({
             userid,        // Foreign key from the route
             name,          // Item name
             description,   // Item description
@@ -47,7 +48,7 @@ export async function updateItem(req, res) {
         const { name, description, action, available } = req.body; // Updated fields
 
         // Update the item in the database
-        const updatedRows = await knex('items')
+        const updatedRows = await db('items')
             .where({ id, userid }) 
             .update({
                 name,
@@ -72,7 +73,7 @@ export async function deleteItem(req, res) {
         const { userid, id } = req.params; // `userid` and `id` from the route
 
         // Delete the item from the database
-        const deletedRows = await knex('items')
+        const deletedRows = await db('items')
             .where({ id, userid }) 
             .del();
 
@@ -86,8 +87,3 @@ export async function deleteItem(req, res) {
         res.status(500).json({ error: "Failed to delete item." });
     }
 }
-
-
-
-
-

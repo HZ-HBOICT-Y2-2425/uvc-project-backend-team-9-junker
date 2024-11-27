@@ -27,7 +27,7 @@ services:
     container_name: itemmicroservice
     build: ./itemmicroservice
     volumes:
-      - .itemmicroserviceusermicroservice/code:/usr/src/app
+      - ./itemmicroservice/code:/usr/src/app
     networks:
       - msexample
     ports:

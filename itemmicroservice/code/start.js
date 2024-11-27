@@ -6,7 +6,7 @@ import indexRouter from './routes/index.js';
 import cors from "cors";
 
 const app = express();
-const port = process.env.TOKEN_SERVER_PORT;
+const port = process.env.PORT;
 // support json encoded and url-encoded bodies, mainly used for post and update
 app.use(cors());
 app.use(express.json());
@@ -14,5 +14,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', indexRouter);
 
 app.listen(port, () => {
-  console.log(`User Server running on ${port}...`)
+  console.log(`Item Server running on ${port}...`)
 })
