@@ -1,11 +1,12 @@
 import development from '../knexfile.js';
 import knex from 'knex';
+import ItemModel from 'itemmicroservice\code\models\item.model.js'
 const db = knex(development);
 
 export async function showAllItems(req, res) {
     try {
         // Fetch all items from the database (no user-specific filtering)
-        const allItems = await item.model.find();
+        const allItems = await ItemModel.find();
 
         // If no items are found, send a 404 response
         if (!allItems || allItems.length === 0) {
