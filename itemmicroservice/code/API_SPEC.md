@@ -16,23 +16,6 @@
   [
       {
           "id": 1,
-          "userid": 1,
-          "name": "Item Name",
-          "description": "Item Description",
-          "action": true,
-          "available": true,
-          "createdAt": "2024-01-01T12:00:00Z",
-          "updatedAt": "2024-01-02T15:30:00Z"
-      },
-      ...
-  ]
-
-**Response:**
-- **200 OK**
-  ```json
-  [
-      {
-          "id": 1,
           "name": "Item Name",
           "description": "Item Description",
           "action": true,
