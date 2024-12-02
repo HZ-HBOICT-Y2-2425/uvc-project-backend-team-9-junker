@@ -44,11 +44,30 @@ export async function addUser(req, res) {
     }
 }
 
+//AUTHENTICATE LOGIN AND RETURN JWT TOKEN
+export async function loginUser(req, res) {
+    const { username, password } = req.body;
+
+    //check to see if the user exists in the list of registered users
+    const user = await db('users').where({ username }).first();
+    if (!user) {
+        res.status(404).send("User does not exist!");
+    } else {
+        if (await compare(password, user.password)) {
+            const accessToken = generateAccessToken({ username: user.username });
+            const refreshToken = generateAccessToken({ username: user.username });
+            res.json({ accessToken: accessToken, refreshToken: refreshToken });
+        } else {
+            res.status(400).send("Password Incorrect!");
+        }
+    }
+}
+
 // Allow user to edit info
 export async function editUser(req, res) {
     const { username, currentPassword, newPassword, profile_pic } = req.body;
-    console.log(req.user.username);
-    console.log(username);
+    // console.log(req.user.username);
+    // console.log(username);
 
     // Ensure the username in the URL matches the authenticated user
     if (req.user.username !== username) {
@@ -82,27 +101,6 @@ export async function editUser(req, res) {
     }
 };
 
-//AUTHENTICATE LOGIN AND RETURN JWT TOKEN
-export async function loginUser(req, res) {
-    const { username, password } = req.body;
-
-    //check to see if the user exists in the list of registered users
-    const user = await db('users').where({ username }).first();
-    if (!user) {
-        res.status(404).send("User does not exist!");
-    }
-    else {
-        if (await compare(password, user.password)) {
-            const accessToken = generateAccessToken({ username: user.username });
-            const refreshToken = generateAccessToken({ username: user.username });
-            res.json({ accessToken: accessToken, refreshToken: refreshToken });
-        }
-        else {
-            res.status(401).send("Password Incorrect!");
-        }
-    }
-}
-
 export async function getPublicUser(req, res) {
     const { username } = req.params;
     const user = await db('users').where({ username }).first();
@@ -127,22 +125,6 @@ export async function getPrivateUser(req, res) {
         res.status(200).json({ user }); // Send JSON response
     } else {
         res.status(404).json({ error: "User does not exist!" });
-    }
-}
-
-
-//REFRESH TOKEN API
-export async function refreshToken(req, res) {
-    if (refreshTokens.includes(req.body.token)) {
-        //remove the old refreshToken from the refreshTokens list
-        refreshTokens = refreshTokens.filter((rtl) => rtl != req.body.token);
-
-        //generate new accessToken and refreshTokens
-        const accessToken = generateAccessToken({ user: req.body.name });
-        const refreshToken = generateRefreshToken({ user: req.body.name });
-        res.json({ accessToken: accessToken, refreshToken: refreshToken });
-    } else {
-        res.status(400).send("Refresh Token Invalid");
     }
 }
 
@@ -180,14 +162,29 @@ export async function deleteUser(req, res) {
     }
 }
 
+//REFRESH TOKEN API
+export async function refreshToken(req, res) {
+    if (refreshTokens.includes(req.body.token)) {
+        //remove the old refreshToken from the refreshTokens list
+        refreshTokens = refreshTokens.filter((rtl) => rtl != req.body.token);
+
+        //generate new accessToken and refreshTokens
+        const accessToken = generateAccessToken({ user: req.body.name });
+        const refreshToken = generateRefreshToken({ user: req.body.name });
+        res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    } else {
+        res.status(400).send("Refresh Token Invalid");
+    }
+}
+
 // accessTokens
 function generateAccessToken(user) { 
-    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
 }
 
 // refreshTokens
 function generateRefreshToken(user) {
-    const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "10m" });
+    const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "10h" });
     refreshTokens.push(refreshToken);
     return refreshToken;
 }
