@@ -1,14 +1,19 @@
 import express from 'express';
-import { responseExample, updateExample, responseByIdExample } from '../controllers/exampleController.js';
-import { checkName } from '../middleware/exampleMiddleware.js';
 const router = express.Router();
 
-// routes
-router.get('/', (req, res, next) => {
-  res.json('hi');
+let users = []; // Temporary in-memory store for testing purposes
+
+// Home route
+router.get('/', (req, res) => {
+  res.json('Welcome to the API');
 });
-router.get('/example', checkName, responseExample);
-router.post('/example', checkName, updateExample);
-router.get('/example/:id', checkName, responseByIdExample);
+
+// Example routes
+router.get('/example', (req, res) => {
+  res.json({ message: 'Example GET endpoint' });
+});
+router.post('/example', (req, res) => {
+  res.json({ message: 'Example POST endpoint', data: req.body });
+});
 
 export default router;
