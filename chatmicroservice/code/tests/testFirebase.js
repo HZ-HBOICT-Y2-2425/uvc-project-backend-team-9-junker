@@ -1,11 +1,17 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import fs from 'fs';
+import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 
-const serviceAccountPath = path.resolve('junker-communication-firebase-adminsdk-4zp7e-f5bc0b6fa2.json');
+// Load environment variables
+dotenv.config({ path: './variables.env' });
+
+// Path to Firebase credentials
+const serviceAccountPath = path.resolve(process.env.FIREBASE_CREDENTIALS);
 const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
 
+// Initialize Firebase
 initializeApp({
   credential: cert(serviceAccount),
 });
@@ -20,7 +26,7 @@ const testFirebase = async () => {
       console.log(doc.id, '=>', doc.data());
     });
   } catch (error) {
-    console.error('Firebase connection failed:', error);
+    console.error('Firebase connection failed:', error.message);
   }
 };
 

@@ -1,10 +1,19 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
-import fs from 'fs';
+import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
+
+// Load environment variables
+dotenv.config({ path: './variables.env' });
 
 // Path to Firebase credentials
-const serviceAccountPath = path.resolve('code/junker-communication-firebase-adminsdk.json');
+const serviceAccountPath = process.env.FIREBASE_CREDENTIALS;
+
+if (!serviceAccountPath) {
+  throw new Error('FIREBASE_CREDENTIALS environment variable is not set');
+}
+
 const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
 
 // Initialize Firebase
