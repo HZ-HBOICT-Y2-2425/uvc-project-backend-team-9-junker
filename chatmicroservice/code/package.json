@@ -4,11 +4,13 @@
   "main": "start.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon start.js"
+    "start": "node start.js",
+    "dev": "nodemon start.js",
+    "seed": "node code/seed/seedMessages.js"
   },
   "dependencies": {
-    "express": "^4.21.1",
     "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "firebase-admin": "^11.5.0"
   },
   "devDependencies": {
