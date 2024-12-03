@@ -43,7 +43,7 @@ export async function storeItem(req, res) {
         const { userid } = req.params; // `userid` is assumed to be part of the route
         const { name, description, action, available } = req.body; // Request body contains all attributes
 
-        // Insert the item into the database
+        // Insert the item into the database    
         const [id] = await db('items').insert({
             userid,        // Foreign key from the route
             name,          // Item name

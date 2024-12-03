@@ -9,7 +9,7 @@ router.get('/items',showAllItems)
 router.get('/items/create', createItem);
 
 // Route to store a new item in the database
-router.post('/items', storeItem);
+router.post('/items/:userid', storeItem);
 
 // Route to update an existing item
 router.put('/items/:id', updateItem);
