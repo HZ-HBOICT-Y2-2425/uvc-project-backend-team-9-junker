@@ -193,5 +193,5 @@ build/
 *.drawio.dtmp
 
 # Firebase Admin SDK
-chatmicroservice/code/junker-communication-firebase-adminsdk.json
+chatmicroservice/junker-communication-firebase-adminsdk.json
 
