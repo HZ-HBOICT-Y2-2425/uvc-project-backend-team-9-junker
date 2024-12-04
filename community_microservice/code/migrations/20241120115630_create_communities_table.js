@@ -9,6 +9,7 @@ export function up(knex) {
             .inTable('users')
             .onDelete('CASCADE');
         table.string('name').notNullable();
+        table.string('location');
         table.string('description');
         table.string('status');
         table.text('cover_pic');
