@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "dev": "nodemon start.js",
-    "seed": "node code/seed/seedMessages.js"
+    "seed": "node seed/seedMessages.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
