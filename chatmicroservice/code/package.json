@@ -9,6 +9,7 @@
     "seed": "node seed/seedMessages.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "firebase-admin": "^11.5.0"

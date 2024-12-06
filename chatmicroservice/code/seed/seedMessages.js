@@ -26,7 +26,7 @@ const seedDatabase = async () => {
   ];
 
   try {
-    const chatRef = db.collection('chats').doc('chat1');
+    const chatRef = db.collection('chats').doc('user1_user2');
     await chatRef.set({ messages: sampleMessages });
     console.log('✅ Database seeded successfully!');
   } catch (error) {

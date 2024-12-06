@@ -1,4 +1,5 @@
 import { saveMessage, getMessages, getAllMessages } from '../services/firebaseService.js';
+import { getFirestore } from 'firebase-admin/firestore';
 
 // Save a new message
 export const sendMessage = async (req, res) => {
@@ -40,3 +41,34 @@ export const getAllMessagesHandler = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch all messages', details: error.message });
   }
 };
+
+// Fetch the last message for each chat where the user is the recipient
+export const getLastMessagesForUser = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing userId' });
+  }
+
+  try {
+    const db = getFirestore();
+    const chatsSnapshot = await db.collection('chats').get();
+    const lastMessages = [];
+
+    chatsSnapshot.forEach((doc) => {
+      const chatData = doc.data();
+      const messages = chatData.messages || [];
+      const lastMessage = messages
+        .filter((msg) => msg.recipient === userId)
+        .sort((a, b) => b.timestamp - a.timestamp)[0]; // Get the latest message
+
+      if (lastMessage) {
+        lastMessages.push(lastMessage);
+      }
+    });
+
+    res.status(200).json(lastMessages);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch last messages', details: error.message });
+  }
+}
