@@ -25,7 +25,7 @@ export async function validateToken(req, res, next) {
         
         // Attach decoded user data to the request object
         req.user = decodedUser;
-        // console.log(req.user);
+        console.log(req.user);
 
         next(); // Proceed to the next middleware or route handler
     });

@@ -4,8 +4,8 @@ export function up(knex) {
       table.string('fullname').notNullable();
       table.string('username').notNullable().unique(); // Unique username
       table.string('password').notNullable();    // Password field (will store hashed password)
-      table.text('profile_pic');             // Profile picture URL
-      table.timestamps(true, true);              // created_at and updated_at timestamps
+      table.string('profile_pic');  // Profile picture URL
+      table.timestamps(true, true);               // created_at and updated_at timestamps
     });
   }
   
