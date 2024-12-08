@@ -79,14 +79,15 @@ export async function createCommunity(req, res) {
 
 export async function storeCommunity(req, res) {
     try {
-        const { userid } = req.params; // `userid` is assumed to be part of the route
-        const { name, description, status, cover_pic } = req.body; // Request body contains all attributes
-
+        const { userid, name, description, location, status, cover_pic } = req.body; // Request body contains all attributes
+        // console.log(req.body);
+        
         // Insert the community into the database    
         const [id] = await db('communities').insert({
             userid,        // Foreign key from the route
             name,          // community name
             description,   // community description
+            location,
             status,        // community status: private / public
             cover_pic,     // community cover picture
         });
@@ -133,7 +134,7 @@ export async function deleteCommunity(req, res) {
         const { userid, id } = req.params; // `userid` and `id` from the route
 
         // Delete the community from the database
-        const deletedRows = await db('communitys')
+        const deletedRows = await db('communities')
             .where({ id, userid }) 
             .del();
 

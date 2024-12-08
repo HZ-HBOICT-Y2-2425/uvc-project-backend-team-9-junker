@@ -43,3 +43,18 @@ async function getCommunities() {
     }
 }
 getCommunities();
+
+async function deleteCommunityById(id) {
+    try {
+        // Delete the user with the specified ID
+        await db('communities').where('id', id).del();
+        console.log('Community deleted successfully');
+    } catch (error) {
+        console.error('Error deleting:', error);
+    } finally {
+        // Destroy the Knex connection after the query
+        db.destroy();
+    }
+}
+
+// deleteCommunityById(6);
