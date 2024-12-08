@@ -1,9 +1,9 @@
 services:
-  community_microservice:
-    container_name: community_microservice
-    build: ./community_microservice
+  microservice:
+    container_name: microservice
+    build: ./microservice
     volumes:
-      - ./community_microservice/code:/usr/src/app
+      - ./microservice/code:/usr/src/app
     networks:
       - msexample
     ports:

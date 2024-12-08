@@ -66,6 +66,8 @@ export async function loginUser(req, res) {
 // Allow user to edit info
 export async function editUser(req, res) {
     const { username, currentPassword, newPassword, profile_pic } = req.body;
+    // console.log(req.user.username);
+    // console.log(username);
 
     // Ensure the username in the URL matches the authenticated user
     if (req.user.username !== username) {
@@ -79,25 +81,20 @@ export async function editUser(req, res) {
             return res.status(404).json("User doesn't exist");
         }
 
-        // Update profile picture if provided
-        if (profile_pic) {
-            await db('users').where({ username }).update({ profile_pic });
-            console.log("Profile picture updated successfully");
-        }        
-
-        // Update password if both currentPassword and newPassword are provided
-        if (currentPassword && newPassword) {
-            const isPasswordCorrect = await compare(currentPassword, existingUser.password);
-            if (!isPasswordCorrect) {
-                return res.status(401).json("Current password is incorrect");
-            }
-
-            const hashedPassword = await hash(newPassword, 10);
-            await db('users').where({ username }).update({ password: hashedPassword });
-            console.log("Password updated successfully");
+        // Compare the current password with the one in the database
+        const isPasswordCorrect = await compare(currentPassword, existingUser.password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json("Current password is incorrect");
         }
 
-        res.status(200).json("User edited successfully");
+        const hashedPassword = await hash(newPassword, 10);
+
+        await db('users').where({ username }).update({
+            password: hashedPassword,
+            profile_pic: profile_pic,
+        });
+
+        res.status(201).json("User edited successfully");
     } catch (error) {
         console.error("Error registering user:", error);
         res.status(500).json("Internal server error");
@@ -182,7 +179,7 @@ export async function refreshToken(req, res) {
 
 // accessTokens
 function generateAccessToken(user) { 
-    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10h" });
+    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
 }
 
 // refreshTokens
