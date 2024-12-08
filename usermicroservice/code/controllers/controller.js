@@ -56,6 +56,9 @@ export async function loginUser(req, res) {
         if (await compare(password, user.password)) {
             const accessToken = generateAccessToken({ username: user.username });
             const refreshToken = generateAccessToken({ username: user.username });
+            console.log("Login successfully");
+
+            refreshTokens.push(refreshToken);
             res.json({ accessToken: accessToken, refreshToken: refreshToken });
         } else {
             res.status(400).send("Password Incorrect!");
@@ -167,22 +170,36 @@ export async function deleteUser(req, res) {
 
 //REFRESH TOKEN API
 export async function refreshToken(req, res) {
-    if (refreshTokens.includes(req.body.token)) {
-        //remove the old refreshToken from the refreshTokens list
-        refreshTokens = refreshTokens.filter((rtl) => rtl != req.body.token);
+    const { token, username } = req.body;
 
-        //generate new accessToken and refreshTokens
-        const accessToken = generateAccessToken({ user: req.body.name });
-        const refreshToken = generateRefreshToken({ user: req.body.name });
-        res.json({ accessToken: accessToken, refreshToken: refreshToken });
-    } else {
-        res.status(400).send("Refresh Token Invalid");
+    if (!token) {
+        return res.status(401).send("Refresh token required");
+    }
+
+    if (!refreshTokens.includes(token)) {
+        return res.status(403).send("Refresh token invalid");
+    }
+
+    try {
+        // Generate new tokens
+        const accessToken = generateAccessToken({ username: username });
+        const newRefreshToken = generateRefreshToken({ username: username });
+
+        // Replace the old refresh token
+        refreshTokens = refreshTokens.filter((t) => t !== token);
+        refreshTokens.push(newRefreshToken);
+        
+        console.log("Token is refreshed successfully");
+        res.json({ accessToken: accessToken, refreshToken: newRefreshToken });
+    } catch (err) {
+        console.error("Error verifying refresh token:", error);
+        res.status(403).send("Invalid token");
     }
 }
 
 // accessTokens
 function generateAccessToken(user) { 
-    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10h" });
+    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
 }
 
 // refreshTokens

@@ -13,7 +13,7 @@ router.get("/user/public/:username", getPublicUser);
 router.get("/user/private/:username", validateToken, getPrivateUser);
 
 router.put("/user/:username", validateToken, editUser);
-router.post("/refreshToken", validateToken, refreshToken);
+router.post("/refreshToken", refreshToken);
 
 router.delete("/logout", logoutUser);
 router.delete("/user/:username", validateToken, deleteUser);
@@ -37,7 +37,7 @@ async function getUsers() {
         db.destroy();
     }
 }
-getUsers();
+// getUsers();
 
 async function deleteUser(id) {
     try {
