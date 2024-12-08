@@ -109,7 +109,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file (uncomment this if you are using dotenv in your project)
-.env
+# .env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -191,6 +191,3 @@ build/
 # drawio temp files
 *.drawio.bkp
 *.drawio.dtmp
-
-# Firebase Admin SDK
-chatmicroservice/code/junker-communication-firebase-adminsdk.json

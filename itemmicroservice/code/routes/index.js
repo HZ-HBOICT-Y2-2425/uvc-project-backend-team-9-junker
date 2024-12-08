@@ -12,10 +12,10 @@ router.get('/items/create', createItem);
 router.post('/items/:userid', storeItem);
 
 // Route to update an existing item
-router.put('/items/:id', updateItem);
+router.put('/items/:userid/:id', updateItem);
 
 // Route to delete an item
-router.delete('/items/:id', deleteItem);
+router.delete('/items/:userid/:id', deleteItem);
 
 export default router;
 
