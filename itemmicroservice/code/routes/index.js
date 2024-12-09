@@ -2,6 +2,12 @@ import express from 'express';
 import { createItem, storeItem, updateItem, deleteItem, showAllItems } from '../controllers/controller.js';
 
 const router = express.Router();
+
+// Home route
+router.get('/', (req, res) => {
+    res.json('Welcome to the API');
+  });
+
 // Route to render or prepare data for viewing an item
 router.get('/items',showAllItems)
 
@@ -9,13 +15,13 @@ router.get('/items',showAllItems)
 router.get('/items/create', createItem);
 
 // Route to store a new item in the database
-router.post('/items/:userid', storeItem);
+router.post('/items/:id', storeItem);
 
 // Route to update an existing item
-router.put('/items/:userid/:id', updateItem);
+//router.put('/items/:id', updateItem);
 
 // Route to delete an item
-router.delete('/items/:userid/:id', deleteItem);
+router.delete('/items/:id', deleteItem);
 
 export default router;
 
