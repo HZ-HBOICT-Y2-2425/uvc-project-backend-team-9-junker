@@ -2,6 +2,7 @@ export function up(knex) {
   return knex.schema.createTable('items', function(table) {
     table.increments('id').primary();          // Auto-incrementing ID
     table.integer('userid').notNullable().unsigned();
+    table.foreign('userid').references('id').inTable('users');
     table.string('name').notNullable();
     table.string('description').notNullable();
     table.boolean('action').notNullable().defaultTo(false); // Defaults to false
