@@ -1,5 +1,21 @@
 export function up(knex) {
   return knex.schema.createTable('items', function(table) {
+    
+    table.increments('id').primary(); // Auto-incrementing ID
+    table.integer('userid').notNullable().unsigned();
+    table.foreign('userid').references('id').inTable('users');
+    table.string('name', 255).notNullable(); // Name of the item
+    table.text('description').defaultTo(""); // Description of the item
+    table.json('pictures'); // JSON array for pictures
+    table.boolean('action', 100).defaultTo(true);; // Action associated with the item
+    table.boolean('available').defaultTo(true); // Availability status
+    table.integer('views').defaultTo(0); // Number of views
+    table.integer('interested').defaultTo(0); // Number of interested users
+    table.timestamps(true, true); // created_at and updated_at timestamps
+    table.json('categories'); // JSON array for categories
+    table.json('communities'); // JSON array for communities
+
+    /*
     table.increments('id').primary();          // Auto-incrementing ID
     table.integer('userid').notNullable().unsigned();
     table.foreign('userid').references('id').inTable('users');
@@ -8,6 +24,7 @@ export function up(knex) {
     table.boolean('action').notNullable().defaultTo(false); // Defaults to false
     table.boolean('available').notNullable().defaultTo(true);
     table.timestamps(true, true); // created_at and updated_at timestamps
+    */
   
     /*
     table.increments('id').primary();          
