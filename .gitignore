@@ -191,3 +191,6 @@ build/
 # drawio temp files
 *.drawio.bkp
 *.drawio.dtmp
+
+# firebase SDK
+chatmicroservice/code/junker-communication-firebase-adminsdk.json
