@@ -57,4 +57,4 @@ async function deleteCommunityById(id) {
     }
 }
 
-// deleteCommunityById(6);
+// deleteCommunityById(5);
