@@ -2,16 +2,16 @@ import development from '../knexfile.js';
 import knex from 'knex';
 const db = knex(development);
 
-export async function showAllItems(req, res) {
+export async function getAllItems(req, res) {
     try {
-        // Fetch all items from the 'items' table
+        // Fetch all communities from the 'items' table
         const allItems = await db('items').select('*'); 
-        // If no items are found, send a 404 response
+        // If no communities are found, send a 404 response
         if (!allItems || allItems.length === 0) {
             return res.status(404).json({ message: "No items found" });
         }
 
-        // Send all items in the response
+        // Send all communities in the response
         res.status(200).json(allItems);
     } catch (error) {
         // Handle any errors and send a 500 response
@@ -20,31 +20,60 @@ export async function showAllItems(req, res) {
     }
 }
 
-
-
-export async function createItem(req, res) {
+export async function getItem(req, res) {
     try {
-        const { userid } = req.params; // Assuming `userid` is passed in the route
+        const { id } = req.params; // Get the item ID from the request parameters
 
-        // Send the `userid` back to the client for inclusion in the form
-        res.status(200).json({
-            message: "Ready to create an item",
-            userid,
-        });
+        // Fetch the item from the database
+        const item = await db('items').where({ id }).first();
+
+        // If the item is not found, send a 404 response
+        if (!item) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+
+        // Send the community in the response
+        res.status(200).json(item);
     } catch (error) {
-        console.error("Error preparing item creation:", error);
-        res.status(500).json({ error: "Failed to prepare item creation." });
+        // Handle any errors and send a 500 response
+        console.error("Error fetching item:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+
+export async function storeItem(req, res) {
+    try {
+        const { 
+            userid, name, description, images, action, available, views,
+            interested, categories, communities 
+        } = req.body; // Request body contains all attributes
+
+        // console.log(req.body);
+        
+        // Insert the community into the database    
+        const [id] = await db('items').insert({
+            userid, name, description, images, action, available, views,
+            interested, categories, communities
+        });
+
+        // Return success response
+        res.status(201).json({
+            message: "item successfully created.",
+            communityId: id,
+        });
+    } catch (error) {
+        console.error("Error storing item:", error);
+        res.status(500).json({ error: "Failed to store item." });
+    }
+}
+
+/*
 
 export async function storeItem(req, res) {
     console.log("storeItem()");
     const userid = req.params.id; // `userid` is assumed to be part of the route
     console.log(req.body);
     const { name } = req.body; // Request body contains all attributes
-    /*
-    const name = "item1";
-    */
     const description = "new item";
     const action = true;
     const available = true;
@@ -77,20 +106,20 @@ export async function storeItem(req, res) {
         res.status(500).json({ error: "Failed to store item." });
     }
 }
+*/
 
 export async function updateItem(req, res) {
     try {
-        const { userid, id } = req.params; // `userid` and `id` from the route
-        const { name, description, action, available } = req.body; // Updated fields
+        const { id, userid } = req.params; // `userid` and `id` from the route
+        const { name, description, images, action, available, views,
+            interested, categories, communities  } = req.body; // Updated fields
 
         // Update the item in the database
         const updatedRows = await db('items')
             .where({ id, userid }) 
             .update({
-                name,
-                description,
-                action,
-                available,
+                name, description, images, action, available, views,
+                interested, categories, communities
             });
 
         if (updatedRows === 0) {
@@ -106,7 +135,7 @@ export async function updateItem(req, res) {
 
 export async function deleteItem(req, res) {
     try {
-        const { userid, id } = req.params; // `userid` and `id` from the route
+        const { id, userid } = req.params; // `userid` and `id` from the route
 
         // Delete the item from the database
         const deletedRows = await db('items')

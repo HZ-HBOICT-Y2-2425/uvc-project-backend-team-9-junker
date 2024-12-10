@@ -1,5 +1,5 @@
 import express from 'express';
-import { createItem, storeItem, updateItem, deleteItem, showAllItems } from '../controllers/controller.js';
+import { getAllItems, getItem, storeItem, updateItem, deleteItem } from '../controllers/controller.js';
 
 const router = express.Router();
 
@@ -9,19 +9,19 @@ router.get('/', (req, res) => {
   });
 
 // Route to render or prepare data for viewing an item
-router.get('/items',showAllItems)
+router.get('/items', getAllItems)
 
-// Route to render or prepare data for creating an item
-router.get('/items/create', createItem);
+// Route to render or prepare data for viewing an item
+router.get('/:id', getItem);
 
 // Route to store a new item in the database
-router.post('/items/:id', storeItem);
+router.post('/create', storeItem);
 
 // Route to update an existing item
-//router.put('/items/:id', updateItem);
+router.put('/edit/:id/:userid', updateItem);
 
 // Route to delete an item
-router.delete('/items/:id', deleteItem);
+router.delete('/delete/:id/:userid', deleteItem);
 
 export default router;
 
@@ -43,3 +43,18 @@ async function getItems() {
     }
 }
 getItems();
+
+async function deleteItemById(id) {
+  try {
+      // Delete the item with the specified ID
+      await db('items').where('id', id).del();
+      console.log('Item deleted successfully');
+  } catch (error) {
+      console.error('Error deleting:', error);
+  } finally {
+      // Destroy the Knex connection after the query
+      db.destroy();
+  }
+}
+
+// deleteItemById(5);

@@ -7,6 +7,9 @@ export const development = {
   migrations: {
     directory: './migrations',
   },
+  seeds: {
+    directory: './seeds' // Path to your seed files
+  },
 };
 
 export default development;

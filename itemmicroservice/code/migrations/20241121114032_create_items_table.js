@@ -6,7 +6,7 @@ export function up(knex) {
     table.foreign('userid').references('id').inTable('users');
     table.string('name', 255).notNullable(); // Name of the item
     table.text('description').defaultTo(""); // Description of the item
-    table.json('pictures'); // JSON array for pictures
+    table.json('images'); // JSON array for pictures
     table.boolean('action', 100).defaultTo(true);; // Action associated with the item
     table.boolean('available').defaultTo(true); // Availability status
     table.integer('views').defaultTo(0); // Number of views
