@@ -3,6 +3,7 @@
 export const seed = async function (knex) {
     // Deletes ALL existing entries in the items table
     await knex('items').del();
+    await knex('communities').del();
   
     // Inserts seed entries
     await knex('items').insert([
@@ -97,6 +98,18 @@ export const seed = async function (knex) {
             categories: ["Outdoors", "Sports"],
             communities: [0, 1, 2]
         }
+    ]);
+
+     // Insert items_communities (relationships)
+    await knex('items_communities').insert([
+        { item_id: items[0].id, community_id: communities[0].id },
+        { item_id: items[0].id, community_id: communities[1].id },
+        { item_id: items[0].id, community_id: communities[2].id },
+        { item_id: items[0].id, community_id: communities[3].id },
+        { item_id: items[2].id, community_id: communities[0].id },
+        { item_id: items[2].id, community_id: communities[1].id },
+        { item_id: items[2].id, community_id: communities[2].id },
+        { item_id: items[2].id, community_id: communities[3].id },
     ]);
   };
   
