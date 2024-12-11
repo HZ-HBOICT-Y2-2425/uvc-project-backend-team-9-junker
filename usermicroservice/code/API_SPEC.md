@@ -16,18 +16,32 @@
 - **200 OK**
   ```json
   {
-      "id": "12345",
-      "fullname": "John Doe",
-      "username": "johndoe",
-      "profile_pic": "URL_ADDRESS",
-      "createdAt": "2024-01-01T12:00:00Z",
-      "updatedAt": "2024-01-01T12:00:00Z"
+    "meta": {
+      "status": 200,
+      "message": "User retrieved successfully.",
+      "timestamp": "2024-12-11T12:00:00Z",
+    },
+    "data": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "createdAt": "2024-01-01T12:00:00Z",
+        "updatedAt": "2024-01-02T15:30:00Z"
+      }
+    ]
   }
+
   ```
 - **404 Not Found**
   ```json
   {
-      "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "No user found.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
 
@@ -44,21 +58,41 @@
 - **201 Created**
   ```json
   {
-    "message": "User registered successfully"
+    "meta": {
+      "status": 201,
+      "message": "User created successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "name": "Jane Doe",
+      "email": "jane.doe@example.com",
+      "createdAt": "2024-12-11T12:00:00Z",
+      "updatedAt": "2024-12-11T12:00:00Z"
+    }
   }
-
   ```
 - **400 Bad Request**
   ```json
   {
-    "message": "Username already exists"
+    "meta": {
+      "status": 400,
+      "message": "Username already exists",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
 
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
@@ -74,23 +108,42 @@
 - **200 OK**
   ```json
   {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    "meta": {
+      "status": 200,
+      "message": "Login successful.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
   }
 
   ```
 - **400 Bad Request**
   ```json
   {
-    "message": "Invalid username or password"
+    "meta": {
+      "status": 400,
+      "message": "Invalid username or password",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
+
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "No user found.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
+
 # 4. **Update User Information**
 **Method:** PUT
 **Endpoint:** `/user/{username}`
@@ -103,26 +156,51 @@
 - **200 OK**
   ```json
   {
-    "message": "User updated successfully"
+    "meta": {
+      "status": 200,
+      "message": "User updated successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "createdAt": "2024-01-01T12:00:00Z",
+      "updatedAt": "2024-12-11T12:00:00Z"
+    }
   }
-
   ```
 - **400 Bad Request**
   ```json
   {
-    "message": "Invalid username or password"
+    "meta": {
+      "status": 400,
+      "message": "Invalid username or password",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "No user found.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
@@ -138,25 +216,82 @@
 - **200 OK**
   ```json
   {
-    "message": "User deleted successfully"
+    "meta": {
+      "status": 200,
+      "message": "User deleted successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
-
   ```
 - **400 Bad Request**
   ```json
   {
-    "message": "Invalid username or password"
+    "meta": {
+      "status": 400,
+      "message": "Invalid username or password",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "No user found.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
+  }
+  ```
+
+# 6. **Get User List**
+**Method:** GET
+**Endpoint:** `/users`
+**Description:** Retrieve a list of all users.
+
+**Response:**
+- **200 OK**
+  ```json
+  {
+    "meta": {
+      "status": 200,
+      "message": "User list retrieved successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "email": "EMAIL",
+        "createdAt": "2024-01-01T12:00:00Z",
+        "updatedAt": "2024-01-02T15:30:00Z"
+      },
+      ...
+    ]
+  }
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
