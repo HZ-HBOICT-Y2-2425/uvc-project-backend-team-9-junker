@@ -48,7 +48,7 @@ export async function storeItem(req, res) {
             interested, categories, communities 
         } = req.body; // Request body contains all attributes
 
-        // console.log(req.body);
+        console.log(images);
         
         // Insert the community into the database    
         const [id] = await db('items').insert({
@@ -59,7 +59,7 @@ export async function storeItem(req, res) {
         // Return success response
         res.status(201).json({
             message: "item successfully created.",
-            communityId: id,
+            itemId: id,
         });
     } catch (error) {
         console.error("Error storing item:", error);

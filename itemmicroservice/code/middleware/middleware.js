@@ -1,3 +1,5 @@
+
+/*
 import pkg from "jsonwebtoken";
 const { verify } = pkg;
 
@@ -31,3 +33,4 @@ export async function validateToken(req, res, next) {
         next(); // Proceed to the next middleware or route handler
     });
 }
+*/
