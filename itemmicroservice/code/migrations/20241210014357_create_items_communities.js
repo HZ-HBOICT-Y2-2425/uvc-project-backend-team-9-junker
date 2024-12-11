@@ -1,3 +1,4 @@
+
 export function up(knex) {
     return knex.schema.createTable('items_communities', function(table) {
       table.increments('id').primary();
@@ -11,7 +12,6 @@ export function up(knex) {
     });
   };
   
-  exports.down = function (knex) {
-    return knex.schema.dropTable('items_communities');
-  };
-  
+export function down(knex) {
+return knex.schema.dropTable('items_communities');
+};

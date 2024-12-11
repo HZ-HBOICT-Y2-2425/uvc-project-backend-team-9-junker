@@ -44,15 +44,15 @@ export async function getItem(req, res) {
 export async function storeItem(req, res) {
     try {
         const { 
-            userid, name, description, images, action, available, views,
+            userid, name, description, pictures, action, available, views,
             interested, categories, communities 
         } = req.body; // Request body contains all attributes
 
-        console.log(images);
+        console.log(pictures);
         
         // Insert the community into the database    
         const [id] = await db('items').insert({
-            userid, name, description, images, action, available, views,
+            userid, name, description, pictures, action, available, views,
             interested, categories, communities
         });
 
@@ -111,14 +111,14 @@ export async function storeItem(req, res) {
 export async function updateItem(req, res) {
     try {
         const { id, userid } = req.params; // `userid` and `id` from the route
-        const { name, description, images, action, available, views,
+        const { name, description, pictures, action, available, views,
             interested, categories, communities  } = req.body; // Updated fields
 
         // Update the item in the database
         const updatedRows = await db('items')
             .where({ id, userid }) 
             .update({
-                name, description, images, action, available, views,
+                name, description, pictures, action, available, views,
                 interested, categories, communities
             });
 
