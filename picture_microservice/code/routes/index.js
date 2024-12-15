@@ -30,10 +30,10 @@ router.get('/community/:communityid', getPicturesByCommunityId);
 router.post('/create', storePicture);
 
 // Route to update an existing Picture
-router.put('/edit/:id/:userid', updatePicture);
+router.put('/edit/:id', updatePicture);
 
 // Route to delete an Picture
-router.delete('/delete/:id/:userid', deletePicture);
+router.delete('/delete/:id', deletePicture);
 
 export default router;
 
