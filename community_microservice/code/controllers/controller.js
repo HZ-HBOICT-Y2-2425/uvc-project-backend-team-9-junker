@@ -41,14 +41,40 @@ export async function getCommunity(req, res) {
     }
 }
 
+export async function getMemberRole(req, res) {
+    try {
+        const { community_id } = req.params; // Get the community ID from the request parameters
+        const { user_id} = req.body;
+        console.log(user_id, community_id);
+
+        // find the community members from the database
+        const member = await db('members')
+            .select('role')
+            .where({ user_id, community_id })
+            .first(); // Retrieve only one matching record
+
+        if (member) {
+            res.status(200).json({ role: member.role });
+        } else {
+            res.status(404).json({ error: 'User not found in the community' });
+        }
+    } catch (error) {
+        console.error('Error fetching member role:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 export async function joinCommunity(req, res) {
     try {
-        const { userid, community_id } = req.params; // `userid` and `id` from the route
-
+        const { community_id } = req.params; // Get the community ID from the request parameters
+        const { user_id} = req.body;
+        console.log(user_id, community_id);
+        
         // Insert the user-community relationship into the database
         const member = await db('members').insert({
-            user_id: userid,
+            user_id: user_id,
             community_id: community_id,
+            role: "member",
         });
 
         // Return success response
