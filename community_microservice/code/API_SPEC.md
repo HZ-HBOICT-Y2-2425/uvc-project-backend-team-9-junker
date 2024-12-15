@@ -5,158 +5,237 @@
 
 ## Endpoints
 
-### 1. **Get Community Information**
+### 1. **Show All Communities**
 **Method:** GET  
-**Endpoint:** `/community/{id}`  
-**Description:** Retrieve information for a specific user.  
-**Request Parameters:**
-- `id` (path, required): The unique identifier of the user.
+**Endpoint:** `/communities`  
+**Description:** Retrieve all communities from the database.  
 
 **Response:**
 - **200 OK**
   ```json
   {
-      "id": "12345",
-      "fullname": "John Doe",
-      "username": "johndoe",
-      "profile_pic": "URL_ADDRESS",
-      "createdAt": "2024-01-01T12:00:00Z",
-      "updatedAt": "2024-01-01T12:00:00Z"
+    "meta": {
+      "status": 200,
+      "message": "Communities retrieved successfully.",
+      "timestamp": "2024-12-11T12:00:00Z",
+    },
+    "data": [
+      {
+        "id": 1,
+        "name": "Community Name",
+        "description": "Community Description",
+        "location": "Community Location",
+        "status": "Community Status",
+        "cover_pic": "Community Cover Picture",
+        "createdAt": "2024-01-01T12:00:00Z",
+        "updatedAt": "2024-01-02T15:30:00Z"
+      }
+    ]
   }
+
   ```
 - **404 Not Found**
   ```json
   {
-      "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "No Communities found.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
+  }
+
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
-### 2. **Create User**
-**Method:** POST
-**Endpoint:** `/register`  
-**Description:** Create a new user.  
+### 2. **Prepare Community Creation**
+**Method:** GET
+**Endpoint:** `/communities/create`  
+**Description:** Prepare data for creating a new Community.  
 **Request Parameters:**
-- `fullname` (string, required): The full name of the user.
-- `username` (string, required): The unique identifier of the user.
-- `password` (string, required): The secret key set by the user.
+- `userid` (string, required): The unique identifier of the user who create the community.
+
+**Response:**
+- **200 OK**
+  ```json
+  {
+    "meta": {
+      "status": 200,
+      "message": "Ready to create an Community",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+      "userid": "12345"
+    }
+  }
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
+  }
+  ```
+
+### 3. **Store a New Community**
+**Method:** POST
+**Endpoint:** `/communities`
+**Description:** Store a new Community in the database.
+**Request Parameters:**
+- `name` (string, required): The name of the Community.
+- `description` (string, required): A description of the Community.
+- `location` (string, required): The location of the Community.
+- `status` (string, required): The status of the Community.
+- `cover_pic` (string, required): The cover picture of the Community.
+- `userid` (string, required): The ID of the user creating the Community.
 
 **Response:**
 - **201 Created**
   ```json
   {
-    "message": "User registered successfully"
+    "meta": {
+      "status": 201,
+      "message": "Community successfully created.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+        "id": 1,
+        "name": "Community Name",
+        "description": "Community Description",
+        "location": "Community Location",
+        "status": "Community Status",
+        "cover_pic": "Community Cover Picture",
+        "createdAt": "2024-01-01T12:00:00Z",
+        "updatedAt": "2024-01-02T15:30:00Z"
+    }
   }
 
   ```
-- **400 Bad Request**
-  ```json
-  {
-    "message": "Username already exists"
-  }
-  ```
-
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
-# 3. **Login User**
-**Method:** POST
-**Endpoint:** `/login`
-**Description:** Login a user.
-**Request Parameters:**
-- `username` (string, required): The unique identifier of the user.
-- `password` (string, required): The secret key set by the user.
-
-**Response:**
-- **200 OK**
-  ```json
-  {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-  }
-
-  ```
-- **400 Bad Request**
-  ```json
-  {
-    "message": "Invalid username or password"
-  }
-  ```
-- **404 Not Found**
-  ```json
-  {
-    "message": "User not found"
-  }
-  ```
-# 4. **Update User Information**
+### 4. **Update an Existing Community**
 **Method:** PUT
-**Endpoint:** `/user/{username}`
-**Description:** Update information for a specific user.
+**Endpoint:** `/communities/{id}`
+**Description:** Update an Community in the database.
 **Request Parameters:**
-- `profile_pic` (string, required): The profile picture of the user.
-- `password` (string, required): The secret key set by the user.
+- `name` (string, required): The name of the Community.
+- `description` (string, required): A description of the Community.
+- `location` (string, required): The location of the Community.
+- `status` (string, required): The status of the Community.
+- `cover_pic` (string, required): The cover picture of the Community.
+- `userid` (string, required): The ID of the user creating the Community.
 
 **Response:**
 - **200 OK**
   ```json
   {
-    "message": "User updated successfully"
+    "meta": {
+      "status": 200,
+      "message": "Community updated successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+        "id": 1,
+        "name": "Community Name",
+        "description": "Community Description",
+        "location": "Community Location",
+        "status": "Community Status",
+        "cover_pic": "Community Cover Picture",
+        "createdAt": "2024-01-01T12:00:00Z",
+        "updatedAt": "2024-01-02T15:30:00Z"
+    }
   }
 
-  ```
-- **400 Bad Request**
-  ```json
-  {
-    "message": "Invalid username or password"
-  }
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "Community not found for update.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
+
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
-# 5. **Delete User**
+### 5. **Delete an Community**
 **Method:** DELETE
-**Endpoint:** `/user/{username}`
-**Description:** Delete a specific user.
+**Endpoint:** `/communities/{id}`
+**Description:** Delete an Community from the database.
 **Request Parameters:**
-- `username` (path, required): The unique identifier of the user.
-- `password` (string, required): The secret key set by the user.
+- `id` (path, required): The unique identifier of the Community.
+- `userid` (string, required): The ID of the user creating the Community.
 
 **Response:**
 - **200 OK**
   ```json
   {
-    "message": "User deleted successfully"
+    "meta": {
+      "status": 200,
+      "message": "Community deleted successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
 
-  ```
-- **400 Bad Request**
-  ```json
-  {
-    "message": "Invalid username or password"
-  }
+
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "Community not found for update.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```

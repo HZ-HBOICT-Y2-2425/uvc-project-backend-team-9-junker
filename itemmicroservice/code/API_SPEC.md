@@ -13,29 +13,47 @@
 **Response:**
 - **200 OK**
   ```json
-  [
+  {
+    "meta": {
+      "status": 200,
+      "message": "Items retrieved successfully.",
+      "timestamp": "2024-12-11T12:00:00Z",
+    },
+    "data": [
       {
-          "id": 1,
-          "name": "Item Name",
-          "description": "Item Description",
-          "action": true,
-          "available": true,
-          "createdAt": "2024-01-01T12:00:00Z",
-          "updatedAt": "2024-01-02T15:30:00Z"
-      },
-      ...
-  ]
+        "id": 1,
+        "name": "Item Name",
+        "description": "Item Description",
+        "action": true,
+        "available": true,
+        "createdAt": "2024-01-01T12:00:00Z",
+        "updatedAt": "2024-01-02T15:30:00Z"
+      }
+    ]
+  }
+
   ```
 - **404 Not Found**
   ```json
   {
-      "message": "Item not found"
+    "meta": {
+      "status": 404,
+      "message": "No items found.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": []
   }
+
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
@@ -50,14 +68,25 @@
 - **200 OK**
   ```json
   {
+    "meta": {
+      "status": 200,
       "message": "Ready to create an item",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
       "userid": "12345"
+    }
   }
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
@@ -76,14 +105,32 @@
 - **201 Created**
   ```json
   {
-    "message": "Item successfully created.",
-    "itemId": 1
+    "meta": {
+      "status": 201,
+      "message": "Item successfully created.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "name": "New Item Name",
+      "description": "New Item Description",
+      "action": true,
+      "available": true,
+      "createdAt": "2024-12-11T12:00:00Z",
+      "updatedAt": "2024-12-11T12:00:00Z"
+    }
   }
+
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
@@ -103,19 +150,44 @@
 - **200 OK**
   ```json
   {
-    "message": "Item updated successfully"
+    "meta": {
+      "status": 200,
+      "message": "Item updated successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "name": "Updated Item Name",
+      "description": "Updated Item Description",
+      "action": false,
+      "available": true,
+      "createdAt": "2024-01-01T12:00:00Z",
+      "updatedAt": "2024-12-11T12:00:00Z"
+    }
   }
+
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "Item not found for update.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
+
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 
@@ -131,19 +203,35 @@
 - **200 OK**
   ```json
   {
-    "message": "Item deleted successfully"
+    "meta": {
+      "status": 200,
+      "message": "Item deleted successfully.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
+
 
   ```
 - **404 Not Found**
   ```json
   {
-    "message": "User not found"
+    "meta": {
+      "status": 404,
+      "message": "Item not found for update.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
 - **500 Internal Server Error**
   ```json
   {
-    "message": "Internal server error"
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
   }
   ```
