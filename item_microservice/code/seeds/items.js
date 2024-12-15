@@ -12,7 +12,7 @@ export const seed = async function (knex) {
             userid: 0,
             name: "Bike (Barely Used)",
             description: "Almost new",
-            pictures: ["bike.jpg", "bike2.jpg"],
+            pictures: "1,2",
             action: true,
             available: true,
             views: 18,
