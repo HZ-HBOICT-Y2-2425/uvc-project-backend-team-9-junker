@@ -12,91 +12,91 @@ export const seed = async function (knex) {
             userid: 0,
             name: "Bike (Barely Used)",
             description: "Almost new",
-            pictures: "1,2",
+            pictures: "1,2", //["bike.jpg", "bike2.jpg"],
             action: true,
             available: true,
             views: 18,
             interested: 4,
-            categories: ["Bicycles", "Outdoors", "Sports"],
-            communities: [0, 1, 2, 3]
+            categories: "0,1,2",//["Bicycles", "Outdoors", "Sports"],
+            communities: "0,1,2,3"//[0, 1, 2, 3]
         },
         {
             id: 2,
             userid: 1,
             name: "Sneakers [Vintage]",
             description: "Size 12",
-            pictures: ["sneaker1.avif", "sneaker3.avif", "sneaker4.avif", "sneaker5.avif", "sneaker6.avif", "sneaker7.avif"],
+            pictures: "3,4,5,6,7,8",//["sneaker1.avif", "sneaker3.avif", "sneaker4.avif", "sneaker5.avif", "sneaker6.avif", "sneaker7.avif"],
             action: true,
             available: true,
             views: 28,
             interested: 1,
-            categories: ["Shoes", "Clothing"],
-            communities: [0, 1, 2, 3]
+            categories: "3,4", //["Shoes", "Clothing"],
+            communities: "0,1,2,3"//[0, 1, 2, 3]
         },
         {
             id: 3,
             userid: 0,
             name: "Pan",
             description: "",
-            pictures: ["pan.webp"],
+            pictures: "9", //["pan.webp"],
             action: "",
             available: true,
             views: 8,
             interested: 5,
-            categories: ["Kitchen"],
-            communities: [0, 1, 2, 3]
+            categories: "5", //["Kitchen"],
+            communities: "0,1,2,3"//[0, 1, 2, 3]
         },
         {
             id: 4,
             userid: 2,
             name: "Bookshelf Hardwood 30x15x7",
             description: "Hardwood bookshelf dimensions: 30x15x7",
-            pictures: ["bookshelf.avif"],
+            pictures: "10", //["bookshelf.avif"],
             action: "",
             available: true,
             views: 1,
             interested: 0,
-            categories: ["Furniture"],
-            communities: [0, 1]
+            categories: "6", //["Furniture"],
+            communities: "0,1" //[0, 1]
         },
         {
             id: 5,
             userid: 0,
             name: "Corner Desk",
             description: "height: 120cm",
-            pictures: ["desk.jpg"],
+            pictures: "11", //["desk.jpg"],
             action: "",
             available: true,
             views: 10,
             interested: 2,
-            categories: ["Furniture"],
-            communities: [0, 1, 2]
+            categories: "6", //["Furniture"],
+            communities: "0,1,2" //[0, 1, 2]
         },
         {
             id: 6,
             userid: 0,
             name: "Glass",
             description: "self made",
-            pictures: ["glass.webp"],
+            pictures: "12", //["glass.webp"],
             action: "",
             available: true,
             views: 20,
             interested: 7,
-            categories: ["Kitchen"],
-            communities: [0, 1, 2]
+            categories: "5", //["Kitchen"],
+            communities: "0,1,2" //[0, 1, 2]
         },
         {
             id: 7,
             userid: 0,
             name: "Tennis Racket",
             description: "I'm trying to cure my tennis elbow.",
-            pictures: ["tennis_racket.jpg"],
+            pictures: "13", //["tennis_racket.jpg"],
             action: true,
             available: true,
             views: 20,
             interested: 7,
-            categories: ["Outdoors", "Sports"],
-            communities: [0, 1, 2]
+            categories: "1,2", //["Outdoors", "Sports"],
+            communities: "0,1,2" //[0, 1, 2]
         }
     ]);
 
