@@ -45,7 +45,7 @@ export async function getMemberRole(req, res) {
     try {
         const { community_id } = req.params; // Get the community ID from the request parameters
         const { user_id} = req.body;
-        console.log(user_id, community_id);
+        // console.log(user_id, community_id);
 
         // find the community members from the database
         const member = await db('members')
@@ -68,8 +68,8 @@ export async function joinCommunity(req, res) {
     try {
         const { community_id } = req.params; // Get the community ID from the request parameters
         const { user_id} = req.body;
-        console.log(user_id, community_id);
-        
+        // console.log(user_id, community_id);
+
         // Insert the user-community relationship into the database
         const member = await db('members').insert({
             user_id: user_id,

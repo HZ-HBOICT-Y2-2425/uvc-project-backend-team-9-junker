@@ -211,7 +211,7 @@ export async function refreshToken(req, res) {
 
 // accessTokens
 function generateAccessToken(user) {
-    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
+    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
     console.log("access: " + accessToken);
     return accessToken;
 }
