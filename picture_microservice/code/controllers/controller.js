@@ -127,8 +127,6 @@ export async function storePicture(req, res) {
         const { 
             userid, itemid, communityid, name, data
         } = req.body; // Request body contains all attributes
-
-        console.log(pictures);
         
         // Insert the community into the database    
         const [id] = await db('pictures').insert({
