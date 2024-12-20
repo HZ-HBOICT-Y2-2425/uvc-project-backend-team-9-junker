@@ -1,8 +1,10 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import aggregatorRoutes from './aggregatorRoutes.js';
+
 const router = express.Router();
 
-// create a proxy for each microservice
+// Proxies
 const community_microserviceProxy = createProxyMiddleware({
   target: 'http://community_microservice:3011',
   changeOrigin: true
@@ -20,6 +22,9 @@ const item_microserviceProxy = createProxyMiddleware({
 
 router.use('/community_microservice', community_microserviceProxy);
 router.use('/usermicroservice', usermicroserviceProxy);
-router.use('/itemmicroservice', item_microserviceProxy)
+router.use('/itemmicroservice', item_microserviceProxy);
+
+// Use Aggregation Routes
+router.use('/aggregator', aggregatorRoutes);
 
 export default router;

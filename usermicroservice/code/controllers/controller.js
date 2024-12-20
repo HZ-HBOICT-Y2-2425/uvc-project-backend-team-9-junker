@@ -145,29 +145,28 @@ export async function logoutUser(req, res) {
     res.status(204).send("Logged out!");             
 }
 
-// delete user
 export async function deleteUser(req, res) {
     const { username } = req.body;
 
-    // Check if name and password are provided
     if (!username) {
         return res.status(400).send("Username is required");
     }
 
     try {
-        // Check if the username already exists in the database
         const existingUser = await db('users').where({ username }).first();
         if (!existingUser) {
             return res.status(404).json("User does not exist");
         }
 
         await db('users').where({ username }).del();
-        res.status(201).json("User deleted successfully");
-    } catch {
+        res.status(200).json("User deleted successfully");
+    } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).json("Internal server error");
     }
 }
+
+
 
 //REFRESH TOKEN API
 export async function refreshToken(req, res) {

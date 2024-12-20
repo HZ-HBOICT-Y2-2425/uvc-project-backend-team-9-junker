@@ -20,4 +20,4 @@ export default router;
 // getCommunities();
 // getCommunityMembers();
 // deleteCommunityById(1);
-// runSeeds();
+runSeeds();
