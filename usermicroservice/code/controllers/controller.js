@@ -107,22 +107,30 @@ export async function editUser(req, res) {
         res.status(500).json("Internal server error");
     }
 };
+export const getPublicUser = async (req, res) => {
+    const { userid } = req.params;
+    try {
+        console.log("Fetching user with ID:", userid); // Log the ID
+        const user = await db('users').where({ id: userid }).first();
+        console.log("User data fetched:", user); // Log the result
 
-export async function getPublicUser(req, res) {
-    const { username } = req.params;
-    const user = await db('users').where({ username }).first();
+        if (!user) {
+            console.error("User not found for ID:", userid);
+            return res.status(404).json({ error: 'User does not exist!' });
+        }
 
-    if (user) {
-        const publicProfile = {
-            username: user.username,
-            fullname: user.fullname,
-            profile_pic: user.profile_pic,
-        };
-        res.status(200).json({ publicProfile }); // Send JSON response
-    } else {
-        res.status(404).json({ error: "User does not exist!" });
+        res.json({
+            publicProfile: {
+                fullname: user.fullname,
+                profile_pic: user.profile_pic,
+            },
+        });
+    } catch (error) {
+        console.error("Error fetching user:", error.message);
+        res.status(500).json({ error: "Internal server error" });
     }
-}
+};
+
 
 export async function getPrivateUser(req, res) {
     const { username } = req.params;

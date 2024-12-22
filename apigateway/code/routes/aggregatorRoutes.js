@@ -4,15 +4,24 @@ import axios from 'axios';
 const router = express.Router();
 
 router.get('/aggregated-items', async (req, res) => {
+  console.log("Aggregator route accessed.");
+
   try {
+    // Fetch items
     const itemsResponse = await axios.get('http://itemmicroservice:3013/items');
     const items = itemsResponse.data;
+    console.log("Items fetched:", items);
 
+    if (!items || items.length === 0) {
+      return res.status(404).json({ error: 'No items found' });
+    }
+
+    // Process each item and fetch associated user and community data
     const aggregatedData = await Promise.all(
       items.map(async (item) => {
         try {
           const userResponse = await axios.get(`http://usermicroservice:3012/user/public/${item.userid}`);
-          const user = userResponse.data.publicProfile;
+          const user = userResponse.data;
 
           const communityResponse = await axios.get(`http://community_microservice:3011/communities/${user.community_id}`);
           const community = communityResponse.data;
