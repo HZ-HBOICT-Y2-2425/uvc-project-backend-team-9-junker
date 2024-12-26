@@ -9,7 +9,7 @@ export function up(knex) {
       table.integer('communityid').unsigned();
       table.foreign('communityid').references('id').inTable('communities');
       table.string('name', 255).notNullable(); // filename of the picture
-      table.text('data').notNullable(); // picture data
+      table.text('data'); // picture data
       table.timestamps(true, true); // created_at and updated_at timestamps
   
       /*

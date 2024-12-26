@@ -1,8 +1,10 @@
 import development from '../knexfile.js';
 import knex from 'knex';
 const db = knex(development);
+import sharp from 'sharp';
 
 export async function getAllPictures(req, res) {
+    console.log("getAllPictures");
     try {
         // Fetch all communities from the 'Pictures' table
         const allPictures = await db('pictures').select('*'); 
@@ -21,6 +23,7 @@ export async function getAllPictures(req, res) {
 }
 
 export async function getPicture(req, res) {
+    console.log("getPicture");
     try {
         const { id } = req.params; // Get the picture ID from the request parameters
 
@@ -42,6 +45,7 @@ export async function getPicture(req, res) {
 }
 
 export async function getPictureByName(req, res) {
+    console.log("getPictureByName");
     try {
         const { name } = req.params; // Get the picture ID from the request parameters
 
@@ -63,6 +67,7 @@ export async function getPictureByName(req, res) {
 }
 
 export async function getPicturesByUserId(req, res) {
+    console.log("getPictureByUserId");
     try {
         const { userid } = req.params; // Get the picture ID from the request parameters
 
@@ -83,6 +88,7 @@ export async function getPicturesByUserId(req, res) {
 }
 
 export async function getPicturesByItemId(req, res) {
+    console.log("getPictureByItemId");
     try {
         const { itemid } = req.params; // Get the picture ID from the request parameters
 
@@ -103,6 +109,7 @@ export async function getPicturesByItemId(req, res) {
 }
 
 export async function getPicturesByCommunityId(req, res) {
+    console.log("getPictureByCommunityId");
     try {
         const { communityid } = req.params; // Get the picture ID from the request parameters
 
@@ -123,10 +130,26 @@ export async function getPicturesByCommunityId(req, res) {
 }
 
 export async function storePicture(req, res) {
+    console.log("storePicture");
     try {
-        const { 
+        let { 
             userid, itemid, communityid, name, data
         } = req.body; // Request body contains all attributes
+
+        if(data.length > 100000){
+            /*
+            try {
+                data = data.split(';base64,').pop();
+                let imgBuffer = Buffer.from(data, 'base64');
+                //console.log(newData);
+                data = await resizeToTargetSize(imgBuffer, 100000)
+                //const metadata = await sharp(imgBuffer).metadata();
+                //console.log(metadata);
+            } catch (error) {
+            console.log(`An error occurred during processing: ${error}`);
+            }
+            */
+        }
         
         // Insert the community into the database    
         const [id] = await db('pictures').insert({
@@ -184,6 +207,26 @@ export async function storePicture(req, res) {
     }
 }
 */
+
+async function resizeToTargetSize(data, targetSizeKB, maxWidth = 800, maxHeight = 800) {
+    let quality = 80; // Start with a reasonable quality
+    let buffer;
+    let fileSizeKB;
+  
+    do {
+      buffer = await sharp(data)
+        .resize({ width: maxWidth, height: maxHeight, fit: 'inside' }) // Resize within bounds
+        .jpeg({ quality }) // Adjust JPEG quality
+        .toBuffer();
+  
+      fileSizeKB = buffer.length / 1024; // Calculate file size in KB
+      quality -= 5; // Decrease quality to reduce file size
+    } while (fileSizeKB > targetSizeKB && quality > 10); // Stop if size is below target or quality is too low
+  
+    // Save the resulting image
+    return buffer
+  }
+
 
 export async function updatePicture(req, res) {
     try {

@@ -9,22 +9,19 @@ router.get('/', (req, res) => {
   });
 
 // Route to render or prepare data for viewing an Picture
-router.get('/pictures', getAllPictures)
+router.post('/pictures', getAllPictures)
 
 // Route to render or prepare data for viewing an picture
-router.get('/:id', getPicture);
-
-// Route to render or prepare data for viewing an picture
-router.get('/name/:name', getPictureByName);
+router.post('/name/:name', getPictureByName);
 
 // Route to render or prepare data for viewing pictures
-router.get('/user/:userid', getPicturesByUserId);
+router.post('/user/:userid', getPicturesByUserId);
 
 // Route to render or prepare data for viewing pictures
-router.get('/item/:itemid', getPicturesByItemId);
+router.post('/item/:itemid', getPicturesByItemId);
 
 // Route to render or prepare data for viewing pictures
-router.get('/community/:communityid', getPicturesByCommunityId);
+router.post('/community/:communityid', getPicturesByCommunityId);
 
 // Route to store a new Picture in the database
 router.post('/create', storePicture);
@@ -34,6 +31,9 @@ router.put('/edit/:id', updatePicture);
 
 // Route to delete an Picture
 router.delete('/delete/:id', deletePicture);
+
+// Route to render or prepare data for viewing an picture
+router.post('/:id', getPicture);
 
 export default router;
 

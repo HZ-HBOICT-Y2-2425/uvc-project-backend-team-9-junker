@@ -10,6 +10,7 @@ const port = process.env.PORT;
 // support json encoded and url-encoded bodies, mainly used for post and update
 app.use(cors());
 app.use(express.json({ limit: '100mb' }));
+app.use(express.text({ limit: '100mb' })); //does this work?
 app.use(express.urlencoded({ extended: true }));
 app.use('/', indexRouter);
 
