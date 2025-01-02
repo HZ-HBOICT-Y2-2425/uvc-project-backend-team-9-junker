@@ -9,7 +9,7 @@ const port = process.env.PORT || 3012; // Make sure the correct port is set
 
 // CORS setup allowing frontend origin
 const corsOptions = {
-  origin: 'http://localhost:5174',  // Change this to the correct frontend URL
+  origin: 'http://localhost:5173',  // Change this to the correct frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };

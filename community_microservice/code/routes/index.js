@@ -14,6 +14,7 @@ router.post('/create', storeCommunity);
 router.put('/edit/:id', updateCommunity);
 router.delete('/delete/:id', deleteCommunity);
 
+
 export default router;
 
 // Database test and view
