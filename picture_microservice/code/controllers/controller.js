@@ -136,8 +136,8 @@ export async function storePicture(req, res) {
             userid, itemid, communityid, name, data
         } = req.body; // Request body contains all attributes
 
+        /*
         if(data.length > 100000){
-            /*
             try {
                 data = data.split(';base64,').pop();
                 let imgBuffer = Buffer.from(data, 'base64');
@@ -148,8 +148,8 @@ export async function storePicture(req, res) {
             } catch (error) {
             console.log(`An error occurred during processing: ${error}`);
             }
-            */
         }
+        */
         
         // Insert the community into the database    
         const [id] = await db('pictures').insert({

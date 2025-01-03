@@ -33,7 +33,7 @@ router.put('/edit/:id', updatePicture);
 router.delete('/delete/:id', deletePicture);
 
 // Route to render or prepare data for viewing an picture
-router.post('/:id', getPicture);
+router.get('/:id', getPicture);
 
 export default router;
 
