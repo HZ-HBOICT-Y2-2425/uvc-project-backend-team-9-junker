@@ -14,12 +14,18 @@ const usermicroserviceProxy = createProxyMiddleware({
 });
 
 const item_microserviceProxy = createProxyMiddleware({
-  target: 'http://itemmicroservice:3013',
+  target: 'http://item_microservice:3013',
+  changeOrigin: true
+});
+
+const picture_microserviceProxy = createProxyMiddleware({
+  target: 'http://picture_microservice:3014',
   changeOrigin: true
 });
 
 router.use('/community_microservice', community_microserviceProxy);
 router.use('/usermicroservice', usermicroserviceProxy);
-router.use('/itemmicroservice', item_microserviceProxy)
+router.use('/item_microservice', item_microserviceProxy);
+router.use('/picture_microservice', picture_microserviceProxy);
 
 export default router;
