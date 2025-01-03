@@ -19,7 +19,7 @@ const item_microserviceProxy = createProxyMiddleware({
 });
 
 const picture_microserviceProxy = createProxyMiddleware({
-  target: 'http://picture_microservice:3014',
+  target: 'http://picture_microservice:3015',
   changeOrigin: true
 });
 
