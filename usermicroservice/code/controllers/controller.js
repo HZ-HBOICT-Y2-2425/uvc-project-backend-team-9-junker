@@ -1,6 +1,7 @@
 import { hash, compare } from 'bcrypt';
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
+const { verify } = pkg;
 
 import development from '../knexfile.js';
 import knex from 'knex';
@@ -55,7 +56,7 @@ export async function loginUser(req, res) {
     } else {
         if (await compare(password, user.password)) {
             const accessToken = generateAccessToken({ username: user.username });
-            const refreshToken = generateAccessToken({ username: user.username });
+            const refreshToken = generateRefreshToken({ username: user.username });
             console.log("Login successfully");
 
             refreshTokens.push(refreshToken);
@@ -170,13 +171,18 @@ export async function deleteUser(req, res) {
 
 //REFRESH TOKEN API
 export async function refreshToken(req, res) {
-    const { token, username } = req.body;
+    const { refreshToken, username } = req.body;
+    console.log('Refresh token start: ');
+    console.log("received token: " + refreshToken);
+    console.log("array: " + refreshTokens);
 
-    if (!token) {
+    if (!refreshToken) {
+        console.log('Refresh token not found');
         return res.status(401).send("Refresh token required");
     }
 
-    if (!refreshTokens.includes(token)) {
+    if (!refreshTokens.includes(refreshToken)) {
+        console.log('Refresh token invalid');
         return res.status(403).send("Refresh token invalid");
     }
 
@@ -186,25 +192,32 @@ export async function refreshToken(req, res) {
         const newRefreshToken = generateRefreshToken({ username: username });
 
         // Replace the old refresh token
-        refreshTokens = refreshTokens.filter((t) => t !== token);
-        refreshTokens.push(newRefreshToken);
+        refreshTokens = refreshTokens.filter((t) => t !== refreshToken);
+        if (!refreshTokens.includes(newRefreshToken)) {
+            refreshTokens.push(newRefreshToken);
+        }
         
         console.log("Token is refreshed successfully");
+        console.log("array: " + refreshTokens);
+        console.log("access: " + accessToken);
+        console.log("refresh: " + newRefreshToken);
+
         res.json({ accessToken: accessToken, refreshToken: newRefreshToken });
     } catch (err) {
-        console.error("Error verifying refresh token:", error);
+        console.log("Error verifying refresh token:", err);
         res.status(403).send("Invalid token");
     }
 }
 
 // accessTokens
-function generateAccessToken(user) { 
-    return sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
+function generateAccessToken(user) {
+    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
+    return accessToken;
 }
 
 // refreshTokens
 function generateRefreshToken(user) {
-    const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "10h" });
+    const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d" });
     refreshTokens.push(refreshToken);
     return refreshToken;
 }
