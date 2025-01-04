@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllCommunites, getCommunity, joinCommunity, createCommunity, storeCommunity, updateCommunity, deleteCommunity, getMemberRole } from '../controllers/controller.js';
+import { getAllCommunites, getCommunity, getCommunitiesByUserId, joinCommunity, createCommunity, storeCommunity, updateCommunity, deleteCommunity, getMemberRole } from '../controllers/controller.js';
 import { getCommunities, getCommunityMembers, deleteCommunityById, runSeeds} from './dbManager.js';
 
 const router = express.Router();
@@ -7,6 +7,7 @@ const router = express.Router();
 // Routes
 router.get('/', getAllCommunites);
 router.get('/:id', getCommunity);
+router.post('/user/:user_id', getCommunitiesByUserId);
 router.post('/join/:community_id', joinCommunity);
 router.post('/member-role/:community_id', getMemberRole);
 router.get('/create', createCommunity);

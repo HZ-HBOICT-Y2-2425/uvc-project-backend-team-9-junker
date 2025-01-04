@@ -41,6 +41,43 @@ export async function getCommunity(req, res) {
     }
 }
 
+export async function getCommunitiesByUserId(req, res) {
+    console.log("getCommunitiesByUserId");
+    try {
+        const { user_id } = req.params; // Get the user ID from the request parameters
+
+        // Fetch all communities from the 'communities' table
+        const communityIds = await db('members').select('community_id').where('user_id', user_id);
+        const communityIdArray = communityIds.map(obj => obj.community_id);
+        // If no pictures are found, send a 404 response
+        if (!communityIdArray || communityIdArray.length === 0) {
+            return res.status(404).json({ message: "No communities found" });
+        }
+        else {
+            try {
+                // Fetch all communities from the 'communities' table
+                const allCommunitiesOfUser = await db('communities').select('*').whereIn('id', communityIdArray);; 
+                // If no communities are found, send a 404 response
+                if (!allCommunitiesOfUser || allCommunitiesOfUser.length === 0) {
+                    return res.status(404).json({ message: "No communities found" });
+                }
+        
+                // Send all communities in the response
+                res.status(200).json(allCommunitiesOfUser);
+            } catch (error) {
+                // Handle any errors and send a 500 response
+                console.error("Error fetching user communities:", error);
+                res.status(500).json({ message: "Internal server error" });
+            }
+        }
+
+    } catch (error) {
+        // Handle any errors and send a 500 response
+        console.error("Error fetching community IDs:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 export async function getMemberRole(req, res) {
     try {
         const { community_id } = req.params; // Get the community ID from the request parameters
