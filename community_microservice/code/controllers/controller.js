@@ -59,7 +59,6 @@ export async function getMemberRole(req, res) {
             res.status(404).json({ error: 'User not found in the community' });
         }
     } catch (error) {
-        console.error('Error fetching member role:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
@@ -85,6 +84,28 @@ export async function joinCommunity(req, res) {
     } catch (error) {
         console.error("Error joining community:", error);
         res.status(500).json({ error: "Failed to join community." });
+    }
+}
+
+export async function leaveCommunity(req, res) {
+    try {
+        const { community_id } = req.params; // Get the community ID from the request parameters
+        const { user_id} = req.body;
+        // console.log(user_id, community_id);
+
+        // Delete the user-community relationship from the database
+        const deletedRows = await db('members')
+            .where({ user_id, community_id })
+            .del();
+
+        if (deletedRows === 0) {
+            return res.status(404).json({ error: "User not found in the community." });
+        }
+
+        res.status(200).json({ message: "Successfully left the community." });
+    } catch (error) {
+        console.error("Error leaving community:", error);   
+        res.status(500).json({ error: "Failed to leave community." });
     }
 }
 
