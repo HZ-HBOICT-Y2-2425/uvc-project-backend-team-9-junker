@@ -36,7 +36,7 @@ export const getMessages = async (chatId) => {
   const chatRef = db.ref(`chats/${chatId}`);
   const snapshot = await chatRef.once('value');
   const messages = snapshot.val();
-  return messages ? Object.values(messages) : [];
+  return messages ? Object.values(messages) : []; // Return an array of messages
 };
 
 // Fetch all messages from all chats
