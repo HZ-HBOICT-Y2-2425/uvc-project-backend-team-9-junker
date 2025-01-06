@@ -1,5 +1,6 @@
 import express from 'express';
 import { addLikedItem, getLikedItems, removeLikedItem } from './likedItems.service.js';
+import { verifyToken } from './auth.js'; // Import the verifyToken function (adjust the path as needed)
 
 const app = express();
 const port = 3013; // or from environment variable
@@ -24,7 +25,7 @@ db.serialize(() => {
 app.use(express.json());
 
 // Add liked item
-app.post('/api/liked-items', async (req, res) => {
+app.post('/api/liked-items', verifyToken, async (req, res) => {
   const { userId, itemId } = req.body;
   try {
     await addLikedItem(userId, itemId);
@@ -36,7 +37,7 @@ app.post('/api/liked-items', async (req, res) => {
 });
 
 // Get liked items
-app.get('/api/liked-items/:userId', async (req, res) => {
+app.get('/api/liked-items/:userId', verifyToken, async (req, res) => {
   const { userId } = req.params;
   try {
     const likedItems = await getLikedItems(userId);
@@ -48,7 +49,7 @@ app.get('/api/liked-items/:userId', async (req, res) => {
 });
 
 // Remove liked item
-app.delete('/api/liked-items', async (req, res) => {
+app.delete('/api/liked-items', verifyToken, async (req, res) => {
   const { userId, itemId } = req.body;
   try {
     await removeLikedItem(userId, itemId);
