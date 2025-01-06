@@ -1,5 +1,5 @@
 import express from 'express';
-import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, getPrivateUser, getPublicUser } from '../controllers/controller.js';
+import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, getPrivateUser, getPublicUser, getPublicUserById } from '../controllers/controller.js';
 import { validateToken } from '../middleware/middleware.js';
 
 const router = express.Router();
@@ -10,6 +10,7 @@ router.post("/register", addUser);
 router.post("/login", loginUser);
 
 router.get("/user/public/:username", getPublicUser);
+router.get("/id/public/:id", getPublicUserById);
 router.get("/user/private/:username", validateToken, getPrivateUser);
 
 router.put("/user/:username", validateToken, editUser);

@@ -124,6 +124,23 @@ export async function getPublicUser(req, res) {
     }
 }
 
+export async function getPublicUserById(req, res) {
+    const { id } = req.params;
+    const user = await db('users').where({ id }).first();
+    console.log(user)
+    if (user) {
+        const publicProfile = {
+            id: user.id,
+            username: user.username,
+            fullname: user.fullname,
+            profile_pic: user.profile_pic,
+        };
+        res.status(200).json({ publicProfile }); // Send JSON response
+    } else {
+        res.status(404).json({ error: "User does not exist!" });
+    }
+}
+
 export async function getPrivateUser(req, res) {
     const { username } = req.params;
     const user = await db('users').where({ username }).first();

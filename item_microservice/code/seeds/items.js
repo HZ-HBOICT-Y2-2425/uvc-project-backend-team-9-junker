@@ -9,7 +9,7 @@ export const seed = async function (knex) {
     await knex('items').insert([
        {
             id: 0,
-            userid: 0,
+            userid: 3,
             name: "Bike (Barely Used)",
             description: "Almost new",
             pictures: "1,2", //["bike.jpg", "bike2.jpg"],
@@ -17,7 +17,7 @@ export const seed = async function (knex) {
             available: true,
             views: 18,
             interested: 4,
-            categories: "0,1,2",//["Bicycles", "Outdoors", "Sports"],
+            categories: "0",//Bicycles,
             communities: "0,1,2,3"//[0, 1, 2, 3]
         },
         {
@@ -30,12 +30,12 @@ export const seed = async function (knex) {
             available: true,
             views: 28,
             interested: 1,
-            categories: "3,4", //["Shoes", "Clothing"],
+            categories: "7", //Shoes
             communities: "0,1,2,3"//[0, 1, 2, 3]
         },
         {
             id: 3,
-            userid: 0,
+            userid: 3,
             name: "Pan",
             description: "",
             pictures: "9", //["pan.webp"],
@@ -43,7 +43,7 @@ export const seed = async function (knex) {
             available: true,
             views: 8,
             interested: 5,
-            categories: "5", //["Kitchen"],
+            categories: "5", //Kitchen Appliance
             communities: "0,1,2,3"//[0, 1, 2, 3]
         },
         {
@@ -56,12 +56,12 @@ export const seed = async function (knex) {
             available: true,
             views: 1,
             interested: 0,
-            categories: "6", //["Furniture"],
+            categories: "4", //Furniture
             communities: "0,1" //[0, 1]
         },
         {
             id: 5,
-            userid: 0,
+            userid: 3,
             name: "Corner Desk",
             description: "height: 120cm",
             pictures: "11", //["desk.jpg"],
@@ -69,12 +69,12 @@ export const seed = async function (knex) {
             available: true,
             views: 10,
             interested: 2,
-            categories: "6", //["Furniture"],
+            categories: "4", //Furniture
             communities: "0,1,2" //[0, 1, 2]
         },
         {
             id: 6,
-            userid: 0,
+            userid: 3,
             name: "Glass",
             description: "self made",
             pictures: "12", //["glass.webp"],
@@ -82,12 +82,12 @@ export const seed = async function (knex) {
             available: true,
             views: 20,
             interested: 7,
-            categories: "5", //["Kitchen"],
+            categories: "6", //Kitchenware
             communities: "0,1,2" //[0, 1, 2]
         },
         {
             id: 7,
-            userid: 0,
+            userid: 3,
             name: "Tennis Racket",
             description: "I'm trying to cure my tennis elbow.",
             pictures: "13", //["tennis_racket.jpg"],
@@ -95,7 +95,7 @@ export const seed = async function (knex) {
             available: true,
             views: 20,
             interested: 7,
-            categories: "1,2", //["Outdoors", "Sports"],
+            categories: "8", //Sports Equipment
             communities: "0,1,2" //[0, 1, 2]
         }
     ]);
