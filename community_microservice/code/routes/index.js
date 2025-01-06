@@ -18,7 +18,7 @@ router.delete('/delete/:id', deleteCommunity);
 export default router;
 
 // Database test and view
-// getCommunities();
+getCommunities();
 // getCommunityMembers();
 // deleteCommunityById(1);
 runSeeds();

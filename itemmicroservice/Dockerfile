@@ -5,7 +5,7 @@ FROM node:22.11.0
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the working directory
-COPY package.json package-lock.json ./
+COPY ./code/package.json ./code/package-lock.json ./
 
 # Install dependencies
 RUN npm install --unsafe-perm

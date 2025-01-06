@@ -5,7 +5,7 @@ import indexRouter from './routes/index.js';
 import cors from "cors";
 
 const app = express();
-const port = process.env.PORT || 3012; // Make sure the correct port is set
+const port = process.env.PORT || 3011; // Make sure the correct port is set
 
 // CORS setup allowing frontend origin
 const corsOptions = {
