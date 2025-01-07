@@ -1,9 +1,17 @@
 import express from 'express';
+import cors from 'cors'; // Import CORS
 import { addLikedItem, getLikedItems, removeLikedItem } from './likedItems.service.js';
 import { verifyToken } from './auth.js'; // Import the verifyToken function (adjust the path as needed)
 
+// Initialize Express
 const app = express();
 const port = 3013; // or from environment variable
+
+// Enable CORS for all routes
+app.use(cors()); // Add this line to enable CORS
+
+// Middleware to parse JSON requests
+app.use(express.json());
 
 // Initialize SQLite database connection
 import sqlite3 from 'sqlite3';
@@ -21,9 +29,6 @@ db.serialize(() => {
   `);
 });
 
-// Middleware
-app.use(express.json());
-
 // Add liked item
 app.post('/api/liked-items', verifyToken, async (req, res) => {
   const { userId, itemId } = req.body;
@@ -36,17 +41,16 @@ app.post('/api/liked-items', verifyToken, async (req, res) => {
   }
 });
 
-// Get liked items
-app.get('/api/liked-items/:userId', verifyToken, async (req, res) => {
-  const { userId } = req.params;
+app.get('/api/liked-items', async (req, res) => {
   try {
-    const likedItems = await getLikedItems(userId);
+    const likedItems = await getAllLikedItems(); // A function that fetches all items
     res.status(200).send(likedItems);
   } catch (error) {
     console.error('Error fetching liked items:', error);
     res.status(500).send({ error: 'Failed to fetch liked items' });
   }
 });
+
 
 // Remove liked item
 app.delete('/api/liked-items', verifyToken, async (req, res) => {

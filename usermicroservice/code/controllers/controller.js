@@ -218,8 +218,7 @@ export async function refreshToken(req, res) {
 
 // accessTokens
 function generateAccessToken(user) {
-    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
-    console.log("access: " + accessToken);
+    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
     return accessToken;
 }
 
@@ -227,8 +226,6 @@ function generateAccessToken(user) {
 function generateRefreshToken(user) {
     const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d" });
     refreshTokens.push(refreshToken);
-    console.log("array: " + refreshTokens);
-    console.log("refresh: " + refreshToken);
     return refreshToken;
 }
 
