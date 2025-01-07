@@ -21,6 +21,7 @@ export async function getAllCommunites(req, res) {
 }
 
 export async function getCommunity(req, res) {
+    console.log("getCommunity")
     try {
         const { id } = req.params; // Get the community ID from the request parameters
 
