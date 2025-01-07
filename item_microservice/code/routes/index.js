@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllItems, getItem, storeItem, updateItem, deleteItem, getItemsByCommunityId } from '../controllers/controller.js';
+import { getAllItems, getItem, storeItem, updateItem, deleteItem } from '../controllers/controller.js';
 
 const router = express.Router();
 
