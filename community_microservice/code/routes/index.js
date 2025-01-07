@@ -22,4 +22,4 @@ export default router;
 // getCommunityMembers();
 // deleteCommunityById(1);
 // runMigrations();
-runSeeds();
+// runSeeds();
