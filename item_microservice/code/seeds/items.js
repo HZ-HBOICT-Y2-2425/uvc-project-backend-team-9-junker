@@ -18,7 +18,7 @@ export const seed = async function (knex) {
             views: 18,
             interested: 4,
             categories: "0",//Bicycles,
-            communities: "0,1,2,3"//[0, 1, 2, 3]
+            communities: "[0,1,2,3]"//[0, 1, 2, 3]
         },
         {
             id: 2,
@@ -31,7 +31,7 @@ export const seed = async function (knex) {
             views: 28,
             interested: 1,
             categories: "7", //Shoes
-            communities: "0,1,2,3"//[0, 1, 2, 3]
+            communities: "[0,1,2,3]"//[0, 1, 2, 3]
         },
         {
             id: 3,
@@ -44,7 +44,7 @@ export const seed = async function (knex) {
             views: 8,
             interested: 5,
             categories: "5", //Kitchen Appliance
-            communities: "0,1,2,3"//[0, 1, 2, 3]
+            communities: "[0,1,2,3]"//[0, 1, 2, 3]
         },
         {
             id: 4,
@@ -57,7 +57,7 @@ export const seed = async function (knex) {
             views: 1,
             interested: 0,
             categories: "4", //Furniture
-            communities: "0,1" //[0, 1]
+            communities: "[0,1]" //[0, 1]
         },
         {
             id: 5,
@@ -70,7 +70,7 @@ export const seed = async function (knex) {
             views: 10,
             interested: 2,
             categories: "4", //Furniture
-            communities: "0,1,2" //[0, 1, 2]
+            communities: "[0,1,2]" //[0, 1, 2]
         },
         {
             id: 6,
@@ -83,7 +83,7 @@ export const seed = async function (knex) {
             views: 20,
             interested: 7,
             categories: "6", //Kitchenware
-            communities: "0,1,2" //[0, 1, 2]
+            communities: "[0,1,2]" //[0, 1, 2]
         },
         {
             id: 7,
@@ -96,7 +96,7 @@ export const seed = async function (knex) {
             views: 20,
             interested: 7,
             categories: "8", //Sports Equipment
-            communities: "0,1,2" //[0, 1, 2]
+            communities: "[0,1,2]" //[0, 1, 2]
         }
     ]);
 

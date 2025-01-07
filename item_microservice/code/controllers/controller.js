@@ -1,5 +1,6 @@
 import development from '../knexfile.js';
 import knex from 'knex';
+
 const db = knex(development);
 
 export async function getAllItems(req, res) {
@@ -31,9 +32,6 @@ export async function getItem(req, res) {
         if (!item) {
             return res.status(404).json({ message: "Item not found" });
         }
-        console.log(item.pictures);
-        console.log(JSON.stringify(item.pictures));
-        //console.log(JSON.parse(item.pictures));
         // Send the community in the response
         res.status(200).json(item);
     } catch (error) {
