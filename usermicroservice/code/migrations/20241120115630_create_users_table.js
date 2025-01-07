@@ -1,11 +1,12 @@
 export function up(knex) {
     return knex.schema.createTable('users', function(table) {
-      table.increments('id').primary();          // Auto-incrementing ID
+      table.increments('id').primary();
       table.string('fullname').notNullable();
-      table.string('username').notNullable().unique(); // Unique username
-      table.string('password').notNullable();    // Password field (will store hashed password)
-      table.text('profile_pic');             // Profile picture URL
-      table.timestamps(true, true);              // created_at and updated_at timestamps
+      table.string('username').notNullable().unique();
+      table.string('password').notNullable();
+      table.text('profile_pic');
+      table.float('co2_reduction_kg').defaultTo(0);
+      table.timestamps(true, true);
     });
   }
   
