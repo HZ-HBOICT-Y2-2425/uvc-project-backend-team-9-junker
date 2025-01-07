@@ -1,5 +1,6 @@
 import development from '../knexfile.js';
 import knex from 'knex';
+import { exec } from 'child_process';
 const db = knex(development);
 
 export async function getCommunities() {
@@ -44,10 +45,32 @@ export async function runMigrations() {
         console.log(`Batch ${newBatchNo} run: ${logMigrate.length} migrations`);
         logMigrate.forEach((file) => console.log(`Migration file executed: ${file}`));
     } catch (error) {
-        console.error('Error running migrations:', error);
+        if (error.message.includes('Migration table is already locked')) {
+            console.log('Migration table is locked. Attempting to unlock...');
+            await unlockMigrationTable();
+            console.log('Migration table unlocked. Retrying migrations...');
+            const [newBatchNo, logMigrate] = await db.migrate.latest(); // Retry migrations
+            console.log(`Batch ${newBatchNo} run: ${logMigrate.length} migrations`);
+            logMigrate.forEach((file) => console.log(`Migration file executed: ${file}`));
+        } else {
+            console.error('Error running migrations:', error);
+        }
     } finally {
         await db.destroy(); // Always destroy the db connection at the end
     }
+}
+
+// Function to run knex migrate:unlock via shell
+async function unlockMigrationTable() {
+    return new Promise((resolve, reject) => {
+        exec('knex migrate:unlock', (err, stdout, stderr) => {
+            if (err) {
+                reject(`Error unlocking migration table: ${stderr}`);
+            }
+            console.log(stdout);
+            resolve();
+        });
+    });
 }
 
 export async function runSeeds() {
