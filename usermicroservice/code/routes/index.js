@@ -1,6 +1,8 @@
 import express from 'express';
 import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, getPrivateUser, getPublicUser } from '../controllers/controller.js';
 import { validateToken } from '../middleware/middleware.js';
+import { runMigrations, runSeeds, getUsers, deleteUser, getCO2Categories } from './dbManager.js';
+import { updateCO2, getTotalCO2, getItemCO2 } from '../controllers/co2Controller.js';
 
 const router = express.Router();
 
@@ -18,38 +20,15 @@ router.post("/refreshToken", validateToken, refreshToken);
 router.delete("/logout", logoutUser);
 router.delete("/user/:username", validateToken, deleteUser);
 
+router.post("/user/:username/co2", validateToken, updateCO2);
+router.get("/co2", getTotalCO2);
+router.get("/co2/:category", getItemCO2)
+
 export default router;
 
 // Database test and view
-import development from '../knexfile.js';
-import knex from 'knex';
-const db = knex(development);
-
-async function getUsers() {
-    try {
-      // Query all users
-        const users = await db('users').select('*');
-        console.log(users);
-    } catch (error) {
-        console.error('Error fetching users:', error);
-    } finally {
-        // Destroy the Knex connection after the query
-        db.destroy();
-    }
-}
+// runMigrations();
+// runSeeds();
 getUsers();
-
-async function deleteUser(id) {
-    try {
-        // Delete the user with the specified ID
-        await db('users').where('id', id).del();
-        console.log('User deleted successfully');
-    } catch (error) {
-        console.error('Error deleting user:', error);
-    } finally {
-        // Destroy the Knex connection after the query
-        db.destroy();
-    }
-}
-
+// getCO2Categories();
 // deleteUser(1);

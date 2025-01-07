@@ -1,6 +1,6 @@
 import express from 'express';
 import { getAllCommunites, getCommunity, joinCommunity, createCommunity, storeCommunity, updateCommunity, deleteCommunity, getMemberRole, leaveCommunity } from '../controllers/controller.js';
-import { getCommunities, getCommunityMembers, deleteCommunityById, runSeeds} from './dbManager.js';
+import { getCommunities, getCommunityMembers, deleteCommunityById, runSeeds, runMigrations} from './dbManager.js';
 
 const router = express.Router();
 
@@ -22,4 +22,5 @@ export default router;
 getCommunities();
 // getCommunityMembers();
 // deleteCommunityById(1);
-runSeeds();
+// runMigrations();
+// runSeeds();
