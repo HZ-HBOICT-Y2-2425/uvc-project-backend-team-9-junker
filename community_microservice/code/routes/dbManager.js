@@ -32,6 +32,24 @@ export async function getCommunityMembers() {
     }
 }
 
+export async function runMigrations() {
+    try {
+        console.log('Rolling back database migrations...');
+        const [batchNo, logRollback] = await db.migrate.rollback(null, true); // Roll back all migrations
+        console.log(`Rolled back to batch ${batchNo}: ${logRollback.length} migrations`);
+        logRollback.forEach((file) => console.log(`Rolled back migration file: ${file}`));
+
+        console.log('Running database migrations...');
+        const [newBatchNo, logMigrate] = await db.migrate.latest(); // Apply all migrations
+        console.log(`Batch ${newBatchNo} run: ${logMigrate.length} migrations`);
+        logMigrate.forEach((file) => console.log(`Migration file executed: ${file}`));
+    } catch (error) {
+        console.error('Error running migrations:', error);
+    } finally {
+        await db.destroy(); // Always destroy the db connection at the end
+    }
+}
+
 export async function runSeeds() {
     try {
         console.log('Running database seeds...');
