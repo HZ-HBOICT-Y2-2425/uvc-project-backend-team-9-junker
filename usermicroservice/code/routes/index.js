@@ -1,5 +1,5 @@
 import express from 'express';
-import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, likeItem, dislikeItem, getPrivateUser, getPublicUser, getPublicUserById } from '../controllers/controller.js';
+import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, likeItem, dislikeItem, deleteLikes, getPrivateUser, getPublicUser, getPublicUserById } from '../controllers/controller.js';
 import { validateToken } from '../middleware/middleware.js';
 import { runMigrations, runSeeds, getUsers, deleteUser, getCO2Categories } from './dbManager.js';
 import { updateCO2, getTotalCO2, getItemCO2 } from '../controllers/co2Controller.js';
@@ -17,8 +17,10 @@ router.get("/user/private/:username", validateToken, getPrivateUser);
 
 router.put("/user/:username", validateToken, editUser);
 router.post("/refreshToken", validateToken, refreshToken);
-router.get("/like/:userid/:itemid", validateToken, likeItem);
-router.get("/dislike/:userid/:itemid", validateToken, dislikeItem);
+
+router.post("/like", likeItem);
+router.post("/dislike", dislikeItem);
+router.put("/likes/:userid", deleteLikes);
 
 router.delete("/logout", logoutUser);
 router.delete("/user/:username", validateToken, deleteUser);
