@@ -5,6 +5,8 @@ export function up(knex) {
       table.string('username').notNullable().unique();
       table.string('password').notNullable();
       table.text('profile_pic');
+      table.string('liked_items').defaultTo("[]");
+      table.string('disliked_items').defaultTo("[]");
       table.float('co2_reduction_kg').defaultTo(0);
       table.timestamps(true, true);
     });

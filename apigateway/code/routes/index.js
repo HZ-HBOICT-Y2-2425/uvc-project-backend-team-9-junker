@@ -14,7 +14,7 @@ const usermicroserviceProxy = createProxyMiddleware({
 });
 
 const item_microserviceProxy = createProxyMiddleware({
-  target: 'http://item_microservice:3013',
+  target: 'http://item_microservice:3017',
   changeOrigin: true
 });
 

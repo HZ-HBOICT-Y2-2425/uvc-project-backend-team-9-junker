@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors'; // Import CORS
-import { addLikedItem, getLikedItems, removeLikedItem } from './likedItems.service.js';
+import { addLikedItem, removeLikedItem } from './likedItems.service.js';
 import { verifyToken } from './auth.js'; // Import the verifyToken function (adjust the path as needed)
 
 // Initialize Express

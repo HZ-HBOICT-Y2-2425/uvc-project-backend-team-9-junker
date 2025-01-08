@@ -107,6 +107,54 @@ export async function editUser(req, res) {
         res.status(500).json("Internal server error");
     }
 };
+
+export async function likeItem(req, res) {
+    const { userid, itemid } = req.params;
+    let likedItems = "";
+    try {
+        likedItems = await db('users').select('liked_items').where({ id: userid}).first();
+    } catch (error) {
+        console.error("Error fetching user.liked_items:", error.message);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+
+    likedItems = await JSON.parse(likedItems);
+    likedItems.push(itemid);
+    likedItems = await JSON.stringify(likedItems);
+
+    try {
+        await db('users').where({ id: userid}).update({ liked_items: likedItems });
+        console.log("Liked Items updated successfully");
+    } catch (error) {
+        console.error("Error updating user.liked_items:", error.message);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+export async function dislikeItem(req, res) {
+    const { userid, itemid } = req.params;
+    let dislikedItems = "";
+    try {
+        dislikedItems = await db('users').select('disliked_items').where({ id: userid}).first();
+    } catch (error) {
+        console.error("Error fetching user.disliked_items:", error.message);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+
+    dislikedItems = await JSON.parse(dislikedItems);
+    dislikedItems.push(itemid);
+    dislikedItems = JSON.stringify(dislikedItems);
+
+    try {
+        await db('users').where({ id: userid}).update({ disliked_items: dislikedItems });
+        console.log("Disliked Items updated successfully");
+    } catch (error) {
+        console.error("Error updating user.disliked_items:", error.message);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
 export const getPublicUser = async (req, res) => {
     const { userid } = req.params;
     try {

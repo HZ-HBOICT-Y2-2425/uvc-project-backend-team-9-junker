@@ -8,7 +8,7 @@ router.get('/aggregated-items', async (req, res) => {
 
   try {
     // Fetch items
-    const itemsResponse = await axios.get('http://itemmicroservice:3013/items');
+    const itemsResponse = await axios.get('http://item_microservice:3017/items');
     const items = itemsResponse.data;
     console.log("Items fetched:", items);
 
