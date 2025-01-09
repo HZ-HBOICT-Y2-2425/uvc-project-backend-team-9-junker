@@ -111,7 +111,7 @@ export async function joinCommunity(req, res) {
         const member = await db('members').insert({
             user_id: user_id,
             community_id: community_id,
-            role: "member",
+            role: "Member",
         });
 
         // Return success response
@@ -175,6 +175,13 @@ export async function storeCommunity(req, res) {
             location,
             status,        // community status: private / public
             cover_pic,     // community cover picture
+        });
+
+        // Insert the user-community relationship into the database
+        await db('members').insert({
+            user_id: userid,
+            community_id: id,
+            role: "Administrator",
         });
 
         // Return success response
