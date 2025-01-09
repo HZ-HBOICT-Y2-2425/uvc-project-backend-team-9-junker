@@ -111,7 +111,7 @@ export async function joinCommunity(req, res) {
         const member = await db('members').insert({
             user_id: user_id,
             community_id: community_id,
-            role: "member",
+            role: "Member",
         });
 
         // Return success response
@@ -181,7 +181,7 @@ export async function storeCommunity(req, res) {
         await db('members').insert({
             user_id: userid,
             community_id: id,
-            role: "administrator",
+            role: "Administrator",
         });
 
         // Return success response
