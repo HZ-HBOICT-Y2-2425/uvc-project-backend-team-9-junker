@@ -41,6 +41,47 @@ export async function getItem(req, res) {
     }
 }
 
+export async function getItemsByUser(req, res) {
+  try {
+      const { userid } = req.params;
+
+      // Validate that userid is provided
+      if (!userid) {
+          return res.status(400).json({ 
+              meta: { status: 400, message: "UserID is required." },
+              data: null 
+          });
+      }
+
+      // Query database for items by the user
+      const items = await db('items').where({ userid }).select('*');
+
+      // If no items are found, return 404
+      if (items.length === 0) {
+          return res.status(404).json({ 
+              meta: { status: 404, message: `No items found for user with ID ${userid}.` },
+              data: [] 
+          });
+      }
+
+      // Success response with items
+      res.status(200).json({
+          meta: { 
+              status: 200, 
+              message: `Items retrieved successfully for user ID ${userid}.`,
+              timestamp: new Date().toISOString() 
+          },
+          data: items
+      });
+  } catch (error) {
+      console.error("Error retrieving items by user:", error);
+      res.status(500).json({
+          meta: { status: 500, message: "Internal server error." },
+          data: null
+      });
+  }
+}
+
 export async function storeItem(req, res) {
     try {
         const { 

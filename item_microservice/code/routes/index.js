@@ -1,6 +1,8 @@
 import express from 'express';
 import { getAllItems, getItem, storeItem, updateItem, deleteItem } from '../controllers/controller.js';
 
+import { getItemsByUser } from '../controllers/controller.js';
+
 const router = express.Router();
 
 // Home route
@@ -22,6 +24,9 @@ router.put('/edit/:id/:userid', updateItem);
 
 // Route to delete an item
 router.delete('/delete/:id/:userid', deleteItem);
+
+// Route to get all items by a specific user
+router.get('/items/user/:userid', getItemsByUser);
 
 export default router;
 
