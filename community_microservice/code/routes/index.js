@@ -22,6 +22,6 @@ export default router;
 // Database test and view
 getCommunities();
 // getCommunityMembers();
-// deleteCommunityById(12);
+// deleteCommunityById(14);
 // runMigrations();
 // runSeeds();
