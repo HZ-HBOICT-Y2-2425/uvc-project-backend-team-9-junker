@@ -18,7 +18,7 @@ export async function getItemCO2(req, res) {
 }
 
 export async function getUserCO2(req, res) {
-    const { username } = req.body;
+    const { username } = req.params;
 
     const user = await db('users').where('username', username).first();
     if (!user) {
@@ -43,7 +43,7 @@ export async function updateCO2(req, res) {
             return res.status(404).json({ message: 'User not found' });
         }
         const newCO2 = user.co2_reduction_kg + co2_reduction;
-        await user.update({ co2_reduction_kg: newCO2 });
+        await db('users').where('username', username).update({ co2_reduction_kg: newCO2 });
 
         res.status(200).json(user.co2_reduction_kg);
     } catch (error) {
