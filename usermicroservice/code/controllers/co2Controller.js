@@ -4,13 +4,11 @@ const db = knex(development);
 
 export async function getItemCO2(req, res) {
     const { category } = req.params;
-    console.log(category);
-    // const categoryLower = category.toLowerCase();
-    // console.log(categoryLower);
+    const categoryLower = category.toLowerCase();
 
     try {
         const co2_reduction = await db('co2categories')
-            .where('category', category)
+            .where('category', categoryLower)
             .select('co2_reduction_kg');
         res.status(200).json(co2_reduction);
     } catch (error) {
@@ -19,6 +17,21 @@ export async function getItemCO2(req, res) {
     }
 }
 
+export async function getUserCO2(req, res) {
+    const { username } = req.body;
+
+    const user = await db('users').where('username', username).first();
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+    
+    try {
+        res.status(200).json(user.co2_reduction_kg);
+    } catch (error) {
+        console.error('Error fetching user co2 data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 
 export async function updateCO2(req, res) {
     const { username } = req.params;
