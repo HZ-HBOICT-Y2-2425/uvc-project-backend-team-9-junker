@@ -7,7 +7,9 @@ export function up(knex) {
       table.text('profile_pic');
       table.string('liked_items').defaultTo("[]");
       table.string('disliked_items').defaultTo("[]");
+      table.string('dealed_items').defaultTo("[]");
       table.float('co2_reduction_kg').defaultTo(0);
+      table.string('level').defaultTo("Beginner");
       table.timestamps(true, true);
     });
   }

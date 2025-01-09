@@ -177,6 +177,13 @@ export async function storeCommunity(req, res) {
             cover_pic,     // community cover picture
         });
 
+        // Insert the user-community relationship into the database
+        await db('members').insert({
+            user_id: userid,
+            community_id: id,
+            role: "administrator",
+        });
+
         // Return success response
         res.status(201).json({
             message: "community successfully created.",

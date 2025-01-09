@@ -1,7 +1,6 @@
 import { hash, compare } from 'bcrypt';
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
-const { verify } = pkg;
 
 import development from '../knexfile.js';
 import knex from 'knex';
@@ -180,6 +179,34 @@ export async function deleteLikes(req, res) {
     res.status(200).json("Likes and Dislikes deleted successfully");
 }
 
+export async function addDealedItem(req, res) {
+    const { userid, itemid } = req.body;
+
+    try {
+        // Fetch the user's dealed items from the database
+        let response = await db('users').select('dealed_items').where({ id: userid }).first();
+        let dealedItems = response.dealed_items ? JSON.parse(response.dealed_items) : [];
+
+        // Check if the itemid already exists in the array
+        if (!dealedItems.includes(itemid)) {
+            dealedItems.push(itemid);
+
+            // Update the dealed_items array in the database
+            await db('users').where({ id: userid }).update({ dealed_items: JSON.stringify(dealedItems) });
+
+            console.log("Dealed Items updated successfully");
+            res.status(200).json(itemid);
+        } else {
+            console.log("Item already exists in Dealed Items");
+        }
+
+    } catch (error) {
+        console.error("Error updating user.dealed_items:", error.message);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
 
 export const getPublicUser = async (req, res) => {
     const { userid } = req.params;
@@ -309,7 +336,7 @@ export async function refreshToken(req, res) {
 
 // accessTokens
 function generateAccessToken(user) {
-    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1m" });
+    const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
     return accessToken;
 }
 
