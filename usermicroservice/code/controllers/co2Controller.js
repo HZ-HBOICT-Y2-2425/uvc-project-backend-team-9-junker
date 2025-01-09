@@ -4,11 +4,10 @@ const db = knex(development);
 
 export async function getItemCO2(req, res) {
     const { category } = req.params;
-    const categoryLower = category.toLowerCase();
 
     try {
         const co2_reduction = await db('co2categories')
-            .where('category', categoryLower)
+            .where('category', category)
             .select('co2_reduction_kg');
         res.status(200).json(co2_reduction);
     } catch (error) {
