@@ -195,7 +195,3 @@ build/
 # firebase SDK
 chatmicroservice/code/junker-communication-firebase-adminsdk.json
 
-# SQLite databases REMOVE LATER
-item_microservice/code/items.db
-picture_microservice/code/pictures.db
-usermicroservice/code/users.db
