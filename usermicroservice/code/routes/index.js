@@ -36,6 +36,6 @@ export default router;
 // Database test and view
 // runMigrations();
 // runSeeds();
-getUsers();
-// getCO2Categories();
+// getUsers();
+getCO2Categories();
 // deleteUser(1);
