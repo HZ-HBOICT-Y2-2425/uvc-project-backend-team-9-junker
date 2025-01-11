@@ -23,7 +23,7 @@ services:
     working_dir: /usr/src/app
     command: bash -c "npm install && npm run dev"
 
-  itemmicroservice:
+  item_microservice:
     container_name: item_microservice
     build: ./item_microservice
     volumes:
@@ -32,18 +32,6 @@ services:
       - msexample
     ports:
       - "3017:3017"
-    working_dir: /usr/src/app
-    command: bash -c "npm install && npm run dev"
-
-  liked_items:
-    container_name: liked_items_microservice
-    build: ./liked_items
-    volumes:
-      - ./liked_items:/usr/src/app
-    networks:
-      - msexample
-    ports:
-      - "3016:3017" # External port 3015 mapped to container's 3013
     working_dir: /usr/src/app
     command: bash -c "npm install && npm run dev"
 

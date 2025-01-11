@@ -1,7 +1,7 @@
 # Item API Specification
 
 ## Base URL
-`https://localhost:3016/`
+`https://localhost:3017/`
 
 ## Endpoints
 

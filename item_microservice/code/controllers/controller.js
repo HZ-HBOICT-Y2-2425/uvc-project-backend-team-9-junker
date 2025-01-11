@@ -108,47 +108,6 @@ export async function storeItem(req, res) {
     }
 }
 
-/*
-
-export async function storeItem(req, res) {
-    console.log("storeItem()");
-    const userid = req.params.id; // `userid` is assumed to be part of the route
-    console.log(req.body);
-    const { name } = req.body; // Request body contains all attributes
-    const description = "new item";
-    const action = true;
-    const available = true;
-
-    // Check if data is provided
-    if (!name || !description || !action || !available) {
-        return res.status(400).send("Name, description, action, available are required");
-    }
-
-    try {
-        
-        // Insert the item into the database    
-        await db('items').insert({
-            userid: userid,        // Foreign key from the route
-            name: name,          // Item name
-            description: description,   // Item description
-            action: action,        // Boolean for action
-            available: available,     // Boolean for availability
-        });
-
-        //console.log(item);
-
-        // Return success response
-        res.status(201).json({
-            message: "Item successfully created.",
-            //itemId: id,
-        });
-    } catch (error) {
-        console.error("Error storing item:", error);
-        res.status(500).json({ error: "Failed to store item." });
-    }
-}
-*/
-
 export async function updateItem(req, res) {
     try {
         const { id, userid } = req.params; // `userid` and `id` from the route
