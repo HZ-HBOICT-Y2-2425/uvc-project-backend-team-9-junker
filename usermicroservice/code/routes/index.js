@@ -3,6 +3,8 @@ import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, likeIt
 import { validateToken } from '../middleware/middleware.js';
 import { runMigrations, runSeeds, getUsers, deleteUser, getCO2Categories } from './dbManager.js';
 import { updateCO2, getTotalCO2, getItemCO2, getUserCO2 } from '../controllers/co2Controller.js';
+import { createTrade, getTradesByUser, updateTradeStatus } from '../controllers/tradeController.js';
+
 
 const router = express.Router();
 
@@ -32,6 +34,10 @@ router.get("/co2", getTotalCO2);
 router.get("/co2/:category", getItemCO2)
 router.get("/user/:username/co2", getUserCO2);
 router.post("/user/:username/co2", updateCO2);
+
+router.post('/trades', createTrade);
+router.get('/trades/:user_id', getTradesByUser);
+router.put('/trades/:trade_id', updateTradeStatus);
 
 export default router;
 

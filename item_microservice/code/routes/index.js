@@ -39,7 +39,7 @@ async function getItems() {
     try {
       // Query all items
         const items = await db('items').select('*');
-        console.log(items);
+        // console.log(items);
     } catch (error) {
         console.error('Error fetching items:', error);
     } finally {

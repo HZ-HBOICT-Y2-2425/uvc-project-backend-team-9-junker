@@ -118,7 +118,7 @@ export async function likeItem(req, res) {
         return res.status(500).json({ error: "Internal server error" });
     }
 
-    console.log(response)
+    // console.log(response)
 
     if(response?.liked_items) {
 
@@ -141,7 +141,7 @@ export async function likeItem(req, res) {
 export async function unlikeItem(req, res) {
     const { userid, itemid } = req.body;
     console.log("unlinkeItem()")
-    console.log(userid, itemid)
+    // console.log(userid, itemid)
     let likedItems = "";
     let response;
     try {
@@ -151,16 +151,16 @@ export async function unlikeItem(req, res) {
         return res.status(500).json({ error: "Internal server error" });
     }
 
-    console.log(response);
+    // console.log(response);
     if(response?.liked_items) {
-        console.log(response.liked_items);
+        // console.log(response.liked_items);
 
         likedItems = response.liked_items;
         likedItems = await JSON.parse(likedItems);
         likedItems = likedItems.filter( (id) => String(id) !== String(itemid) );
         likedItems = await JSON.stringify(likedItems);
 
-        console.log(likedItems);
+        // console.log(likedItems);
 
         try {
             await db('users').where({ id: userid}).update({ liked_items: likedItems });

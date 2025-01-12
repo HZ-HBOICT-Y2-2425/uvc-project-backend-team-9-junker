@@ -46,7 +46,7 @@ async function getPictures() {
     try {
       // Query all pictures
         const pictures = await db('pictures').select('*');
-        console.log(pictures);
+        // console.log(pictures);
     } catch (error) {
         console.error('Error fetching pictures:', error);
     } finally {
