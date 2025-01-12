@@ -239,3 +239,39 @@
     "data": null
   }
   ```
+
+### 6. **Join a Community**
+**Method:** POST
+**Endpoint:** `/join/:community_id`
+**Description:** Join a new Community in the database.
+**Request Parameters:**
+- `community_id` (string, required): The id of the Community.
+
+**Response:**
+- **201 Created**
+  ```json
+  {
+    "meta": {
+      "status": 201,
+      "message": "Successfully joined the community.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": {
+        "user_id": 1,
+        "community_id": 1,
+        "role": "Member",
+    }
+  }
+
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "meta": {
+      "status": 500,
+      "message": "Internal server error.",
+      "timestamp": "2024-12-11T12:00:00Z"
+    },
+    "data": null
+  }
+  ```
