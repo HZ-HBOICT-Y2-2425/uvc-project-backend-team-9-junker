@@ -140,6 +140,8 @@ export async function likeItem(req, res) {
 
 export async function unlikeItem(req, res) {
     const { userid, itemid } = req.body;
+    console.log("unlinkeItem()")
+    console.log(userid, itemid)
     let likedItems = "";
     let response;
     try {
@@ -149,12 +151,16 @@ export async function unlikeItem(req, res) {
         return res.status(500).json({ error: "Internal server error" });
     }
 
+    console.log(response);
     if(response?.liked_items) {
+        console.log(response.liked_items);
 
         likedItems = response.liked_items;
         likedItems = await JSON.parse(likedItems);
-        likedItems = likedItems.filter( (id) => String(id) === String(itemid) );
+        likedItems = likedItems.filter( (id) => String(id) !== String(itemid) );
         likedItems = await JSON.stringify(likedItems);
+
+        console.log(likedItems);
 
         try {
             await db('users').where({ id: userid}).update({ liked_items: likedItems });
@@ -181,7 +187,7 @@ export async function undislikeItem(req, res) {
     if(response?.disliked_items) {
         dislikedItems = response.disliked_items;
         dislikedItems = await JSON.parse(dislikedItems);
-        dislikedItems = dislikedItems.filter( (id) => String(id) === String(itemid));
+        dislikedItems = dislikedItems.filter( (id) => String(id) !== String(itemid));
         dislikedItems = await JSON.stringify(dislikedItems);
 
         try {
