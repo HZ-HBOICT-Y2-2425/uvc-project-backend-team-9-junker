@@ -19,14 +19,15 @@ export async function validateToken(req, res, next) {
     // Verify the token
     verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedUser) => {
         if (err) {
+            if (err.name === "TokenExpiredError") {
+                console.log("Token expired");
+                return res.status(401).send("Token expired"); // Trigger refresh on frontend
+            }
+            console.log("Token invalid");
             return res.status(403).send("Token invalid");
         }
         console.log("Token is valid");
-        
-        // Attach decoded user data to the request object
         req.user = decodedUser;
-        console.log(req.user);
-
         next(); // Proceed to the next middleware or route handler
     });
 }
