@@ -1,37 +1,39 @@
-# Item API Specification
+# Picture API Specification
 
 ## Base URL
-`https://localhost:3013/`
+`https://localhost:3015/`
 
 ## Endpoints
 
-### 1. **Show All Items**
-**Method:** GET  
-**Endpoint:** `/items`  
-**Description:** Retrieve all items from the database.  
+### 1. **Get All Pictures**
+**Method:** POST  
+**Endpoint:** `/pictures`  
+**Description:** Retrieve all pictures from the database.  
+**Request Parameters:** None  
 
 **Response:**
 - **200 OK**
   ```json
-  [
+  {
+    "meta": {
+      "status": 200,
+      "message": "Pictures retrieved successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": [
       {
-          "id": 1,
-          "name": "Item Name",
-          "description": "Item Description",
-          "action": true,
-          "available": true,
-          "createdAt": "2024-01-01T12:00:00Z",
-          "updatedAt": "2024-01-02T15:30:00Z"
-      },
-      ...
-  ]
-  ```
-- **404 Not Found**
-  ```json
-  {
-      "message": "Item not found"
+        "id": 1,
+        "userid": 10,
+        "pictureid": 20,
+        "communityid": 30,
+        "name": "picture1.jpg",
+        "data": "Base64EncodedData",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-02T15:30:00Z"
+      }
+    ]
   }
-  ```
+  
 - **500 Internal Server Error**
   ```json
   {
@@ -39,45 +41,109 @@
   }
   ```
 
-### 2. **Prepare Item Creation**
-**Method:** GET
-**Endpoint:** `/items/create`  
-**Description:** Prepare data for creating a new item.  
-**Request Parameters:**
-- `userid` (string, required): The unique identifier of the user.
-
-**Response:**
-- **200 OK**
-  ```json
-  {
-      "message": "Ready to create an item",
-      "userid": "12345"
-  }
-  ```
-- **500 Internal Server Error**
-  ```json
-  {
-    "message": "Internal server error"
-  }
-  ```
-
-### 3. **Store a New Item**
+### 2. **Get Picture by Name**
 **Method:** POST
-**Endpoint:** `/items`
-**Description:** Store a new item in the database.
+**Endpoint:** `/name/{name}`  
+**Description:** Retrieve a picture by its name.
 **Request Parameters:**
-- `name` (string, required): The name of the item.
-- `description` (string, required): A description of the item.
-- `action` (boolean, required): Indicates if the item requires action.
-- `available` (boolean, required): Indicates if the item is currently available.
-- `userid` (string, required): The ID of the user creating the item.
+- `name` (path, required): The name of the picture.
+
 
 **Response:**
-- **201 Created**
+- **200 OK**
   ```json
   {
-    "message": "Item successfully created.",
-    "itemId": 1
+    "meta": {
+      "status": 200,
+      "message": "Picture retrieved successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "userid": 10,
+      "pictureid": 20,
+      "communityid": 30,
+      "name": "picture1.jpg",
+      "data": "Base64EncodedData",
+      "createdAt": "2025-01-01T12:00:00Z",
+      "updatedAt": "2025-01-02T15:30:00Z"
+    }
+  }
+  ```
+
+- **500 Internal Server Error**
+  ```json
+  {
+    "message": "Internal server error"
+  }
+  ```
+
+### 3. **Get Pictures by User ID**
+**Method:** POST
+**Endpoint:** `/user/{userid}`
+**Description:** Retrieve all pictures uploaded by a specific user.
+**Request Parameters:**
+- `userid` (string, required): The ID of the user creating the picture.
+
+**Response:**
+- **200 OK**
+  ```json
+  {
+    "meta": {
+      "status": 200,
+      "message": "Pictures retrieved successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": [
+      {
+        "id": 1,
+        "userid": 10,
+        "itemid": 20,
+        "communityid": 30,
+        "name": "picture1.jpg",
+        "data": "Base64EncodedData",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-02T15:30:00Z"
+      }
+    ]
+  }
+
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "message": "Internal server error"
+  }
+  ```
+
+### 4. **Get Pictures by Item ID**
+**Method:** POST
+**Endpoint:** `/item/{itemid}`
+**Description:** Retrieve all pictures associated with a specific item.
+**Request Parameters:**
+- `itemid` (path, required): The unique identifier of the item.
+
+**Response:**
+- **200 OK**
+  ```json
+  {
+    "meta": {
+      "status": 200,
+      "message": "Pictures retrieved successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": [
+      {
+        "id": 1,
+        "userid": 10,
+        "itemid": 20,
+        "communityid": 30,
+        "name": "picture1.jpg",
+        "data": "Base64EncodedData",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-02T15:30:00Z"
+      }
+    ]
   }
   ```
 - **500 Internal Server Error**
@@ -87,29 +153,108 @@
   }
   ```
 
-### 4. **Update an Existing Item**
+### 5. **Get Pictures by Community ID**
+**Method:** POST
+**Endpoint:** `/community/{communityid}`
+**Description:** Retrieve all pictures associated with a specific community.
+**Request Parameters:**
+- `communityid` (path, required): The unique identifier of the community.
+
+**Response:**
+- **200 OK**
+  ```json
+  {
+    "meta": {
+      "status": 200,
+      "message": "Pictures retrieved successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": [
+      {
+        "id": 1,
+        "userid": 10,
+        "itemid": 20,
+        "communityid": 30,
+        "name": "picture1.jpg",
+        "data": "Base64EncodedData",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-02T15:30:00Z"
+      }
+    ]
+  }
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "message": "Internal server error"
+  }
+  ```
+
+### 6. **Create a New Picture**
+**Method:** POST
+**Endpoint:** `/create`
+**Description:** Store a new picture in the database.
+**Request Parameters:**
+- `userid` (integer, required): ID of the user uploading the picture.
+- `itemid` (integer, required): ID of the associated item.
+- `communityid` (integer, required): ID of the associated community.
+- `name` (string, required): Name of the picture.
+- `data` (string, required): Base64 encoded data of the picture.
+
+**Response:**
+- **201 CREATED**
+  ```json
+  {
+    "meta": {
+      "status": 201,
+      "message": "Picture created successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "userid": 10,
+      "itemid": 20,
+      "communityid": 30,
+      "name": "picture1.jpg",
+      "data": "Base64EncodedData",
+      "createdAt": "2025-01-12T10:00:00Z",
+      "updatedAt": "2025-01-12T10:00:00Z"
+    }
+  }
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "message": "Internal server error"
+  }
+  ```
+
+### 7. **Update an Existing Picture**
 **Method:** PUT
-**Endpoint:** `/items/{id}`
-**Description:** Update an item in the database.
+**Endpoint:** `/edit/{id}`
+**Description:** Update details of an existing picture.
 **Request Parameters:**
-- `id` (path, required): The unique identifier of the item.
-- `name` (string, required): The name of the item.
-- `description` (string, required): A description of the item.
-- `action` (boolean, required): Indicates if the item requires action.
-- `available` (boolean, required): Indicates if the item is currently available.
-- `userid` (string, required): The ID of the user creating the item.
+- `id` (integer, required): ID of the picture.
 
 **Response:**
 - **200 OK**
   ```json
   {
-    "message": "Item updated successfully"
-  }
-  ```
-- **404 Not Found**
-  ```json
-  {
-    "message": "User not found"
+    "meta": {
+      "status": 200,
+      "message": "Picture updated successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": {
+      "id": 1,
+      "userid": 10,
+      "itemid": 20,
+      "communityid": 30,
+      "name": "updated_picture.jpg",
+      "data": "UpdatedBase64EncodedData",
+      "createdAt": "2025-01-01T12:00:00Z",
+      "updatedAt": "2025-01-12T10:00:00Z"
+    }
   }
   ```
 - **500 Internal Server Error**
@@ -119,26 +264,59 @@
   }
   ```
 
-### 5. **Delete an Item**
+### 8. **Delete a Picture**
 **Method:** DELETE
-**Endpoint:** `/items/{id}`
-**Description:** Delete an item from the database.
+**Endpoint:** `/delete/{id}`
+**Description:** Delete a picture from the database.
 **Request Parameters:**
-- `id` (path, required): The unique identifier of the item.
-- `userid` (string, required): The ID of the user creating the item.
+- `id` (integer, required): ID of the picture.
 
 **Response:**
 - **200 OK**
   ```json
   {
-    "message": "Item deleted successfully"
+    "meta": {
+      "status": 200,
+      "message": "Picture deleted successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    }
   }
-
   ```
-- **404 Not Found**
+- **500 Internal Server Error**
   ```json
   {
-    "message": "User not found"
+    "message": "Internal server error"
+  }
+  ```
+
+### 9. **Get Pictures by ID**
+**Method:** GET
+**Endpoint:** `/{id}`
+**Description:** Retrieve details of a specific picture by its ID.
+**Request Parameters:**
+- `id` (integer, required): ID of the picture.
+
+**Response:**
+- **200 OK**
+  ```json
+  {
+    "meta": {
+      "status": 200,
+      "message": "Pictures retrieved successfully.",
+      "timestamp": "2025-01-12T10:00:00Z"
+    },
+    "data": [
+      {
+        "id": 1,
+        "userid": 10,
+        "itemid": 20,
+        "communityid": 30,
+        "name": "picture1.jpg",
+        "data": "Base64EncodedData",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-02T15:30:00Z"
+      }
+    ]
   }
   ```
 - **500 Internal Server Error**
