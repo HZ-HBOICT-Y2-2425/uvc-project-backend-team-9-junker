@@ -18,7 +18,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker Image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build -t junker-backend .
 
       # - name: Run Tests in Container
       #   run: docker run junker npm test
