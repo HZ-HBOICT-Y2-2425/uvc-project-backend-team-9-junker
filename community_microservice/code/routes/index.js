@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import express from 'express';
 import { getAllCommunites, getCommunity, getCommunitiesByUserId, joinCommunity, createCommunity, storeCommunity, updateCommunity, deleteCommunity, getMemberRole, leaveCommunity } from '../controllers/controller.js';
 import { getCommunities, getCommunityMembers, deleteCommunityById, runSeeds, runMigrations} from './dbManager.js';

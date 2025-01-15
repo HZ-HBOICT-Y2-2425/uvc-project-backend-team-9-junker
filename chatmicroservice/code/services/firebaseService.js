@@ -1,7 +1,6 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import dotenv from 'dotenv';
-import path from 'path';
 import fs from 'fs';
 
 // Load environment variables

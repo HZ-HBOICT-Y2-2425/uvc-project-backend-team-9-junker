@@ -247,8 +247,8 @@ export async function addDealedItem(req, res) {
 
     try {
         // Fetch the user's dealed items from the database
-        let response = await db('users').select('dealed_items').where({ id: userid }).first();
-        let dealedItems = response.dealed_items ? JSON.parse(response.dealed_items) : [];
+        const response = await db('users').select('dealed_items').where({ id: userid }).first();
+        const dealedItems = response.dealed_items ? JSON.parse(response.dealed_items) : [];
 
         // Check if the itemid already exists in the array
         if (!dealedItems.includes(itemid)) {
@@ -328,7 +328,7 @@ export async function getPrivateUser(req, res) {
 export async function logoutUser(req, res) {
     //remove the old refreshToken from the refreshTokens list  
     console.log(refreshTokens);
-    refreshTokens = refreshTokens.filter((rtl) => rtl != req.body.token);
+    refreshTokens = refreshTokens.filter((rtl) => rtl !== req.body.token);
     console.log(refreshTokens);
     // response successfully logged out without any response body
     res.status(204).send("Logged out!");             
