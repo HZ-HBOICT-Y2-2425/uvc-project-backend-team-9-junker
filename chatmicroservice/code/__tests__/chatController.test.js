@@ -1,6 +1,11 @@
 import { sendMessage, getChatMessages } from '../controllers/chatController.js';
 import { saveMessage, getMessages } from '../services/firebaseService.js';
 
+const jest = require('jest');
+const describe = require('describe');
+const it = require('it');
+const expect = require('expect');
+
 // Mock Firebase service functions
 jest.mock('../services/firebaseService.js');
 
