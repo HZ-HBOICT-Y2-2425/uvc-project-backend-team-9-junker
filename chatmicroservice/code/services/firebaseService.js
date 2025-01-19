@@ -1,7 +1,6 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import dotenv from 'dotenv';
-import path from 'path';
 import fs from 'fs';
 
 // Load environment variables
@@ -36,7 +35,7 @@ export const getMessages = async (chatId) => {
   const chatRef = db.ref(`chats/${chatId}`);
   const snapshot = await chatRef.once('value');
   const messages = snapshot.val();
-  return messages ? Object.values(messages) : [];
+  return messages ? Object.values(messages) : []; // Return an array of messages
 };
 
 // Fetch all messages from all chats

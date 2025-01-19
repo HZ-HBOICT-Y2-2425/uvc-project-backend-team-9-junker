@@ -1,14 +1,12 @@
 import express from 'express';
-import { getAllItems, getItem, storeItem, updateItem, deleteItem } from '../controllers/controller.js';
-
-import { getItemsByUser } from '../controllers/controller.js';
+import { getAllItems, getItem, storeItem, updateItem, deleteItem, getItemsByUser } from '../controllers/controller.js';
 
 const router = express.Router();
 
 // Home route
 router.get('/', (req, res) => {
     res.json('Welcome to the API');
-  });
+});
 
 // Route to render or prepare data for viewing an item
 router.get('/items', getAllItems)
@@ -49,6 +47,7 @@ async function getItems() {
 }
 getItems();
 
+// eslint-disable-next-line no-unused-vars
 async function deleteItemById(id) {
   try {
       // Delete the item with the specified ID

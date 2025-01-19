@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import express from 'express';
 import { addUser, loginUser, refreshToken, logoutUser, getUser, editUser, likeItem, unlikeItem, dislikeItem, undislikeItem, deleteLikes, getPrivateUser, getPublicUser, getPublicUserById, addDealedItem } from '../controllers/controller.js';
 import { validateToken } from '../middleware/middleware.js';

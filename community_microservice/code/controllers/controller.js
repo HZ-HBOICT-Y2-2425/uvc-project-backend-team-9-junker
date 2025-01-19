@@ -97,7 +97,7 @@ export async function getMemberRole(req, res) {
             res.status(404).json({ error: 'User not found in the community' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: error.message  });
     }
 }
 

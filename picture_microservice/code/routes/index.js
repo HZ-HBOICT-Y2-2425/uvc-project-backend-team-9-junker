@@ -42,6 +42,7 @@ import development from '../knexfile.js';
 import knex from 'knex';
 const db = knex(development);
 
+// eslint-disable-next-line no-unused-vars
 async function getPictures() {
     try {
       // Query all pictures
@@ -54,8 +55,9 @@ async function getPictures() {
         db.destroy();
     }
 }
-getPictures();
+// getPictures();
 
+// eslint-disable-next-line no-unused-vars
 async function deletePictureById(id) {
   try {
       // Delete the Picture with the specified ID

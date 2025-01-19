@@ -132,7 +132,7 @@ export async function getPicturesByCommunityId(req, res) {
 export async function storePicture(req, res) {
     console.log("storePicture");
     try {
-        let { 
+        const { 
             userid, itemid, communityid, name, data
         } = req.body; // Request body contains all attributes
 
@@ -208,6 +208,7 @@ export async function storePicture(req, res) {
 }
 */
 
+// eslint-disable-next-line no-unused-vars
 async function resizeToTargetSize(data, targetSizeKB, maxWidth = 800, maxHeight = 800) {
     let quality = 80; // Start with a reasonable quality
     let buffer;
